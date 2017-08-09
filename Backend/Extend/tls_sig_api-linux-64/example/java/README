@@ -1,0 +1,24 @@
+此目录是 java demo 的源文件目录。
+
+com/tls/sigcheck 目录下存放了接口的 class，来自于顶级目录下 java 目录下编译 tls_sigcheck.java 所得到。
+
+由于是使用 jni 的方式调用，所以 demo 中将调用了绝对路径加载动态库。
+
+windows 下加载的是 jnisigcheck.dll，注意在代码中使用 \\ 作为路径分隔符。
+
+linux 下加载的是 jnisigcheck.so。进入 src 目录，运行 make jni 就可以得到 so 文件，前提是系统的 JAVA_HOME 需要配置好。
+
+demo 使用方法：
+    请将 Demo.java 文件中加载动态库的路径按照开发者的目录布局做相应修改，在 windows 下注意目录分隔符为 \\（第一个为转义），然后重新编译和运行即可。
+
+Demo 的命令行编译方法为
+    javac -encoding utf-8 Demo.java
+
+Demo 运行方法为
+    java Demo
+
+输出类似于下面
+sig:
+eJxlj11rgzAYhe-9FZLrMhI-qg564aSshenmbC*8CtZE89o1Bhu7lLH-PuoKE3ZunwfOOV*Wbdto91I8VHXdj1JTfVUc2Y82wmjxB5UCRitN3YH9g9woGDitGs2HCTp*5GA8V4BxqaGBu2Cg6rtRzoQzO9KpZOLEw7c4y2CuQDvBdJ0n22dR1HHatOZTBWVTCj6Y16TPRNsR2byPIrxu47f9xr2UfgxPpRgTHhbZKf4oooNjUtzLNFiKzASO6toQDsd807FxH*ar1axSw4nfB3mh57sumZ*68OEMvfy9jIlPCIlus5H1bf0Abn5exA__
+--
+verify ok -- expire time 2592000 -- init time 1448453310

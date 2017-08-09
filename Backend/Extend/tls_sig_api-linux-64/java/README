@@ -1,0 +1,10 @@
+此目录存放了 java 接口的源文件。
+
+使用方法如下：
+
+1.编译（如果出现 java 版本兼容问题才需要），在此目录下执行下面的命令，
+    javac -encoding utf-8 tls_sigcheck.java
+
+2.package 路径为 com.tls.sigcheck，使用时请按照此路径存放 class 文件
+
+3.demo 请见顶级目录 example/java

@@ -1,0 +1,26 @@
+这个目录包含了 C++ 使用 tls_sig_api 的 demo，而且这个同时也是个工具。
+
+用户可以通过这个工具手动生成或者校验 sig。
+
+在 tls_licence_tools.cpp 演示了如何使用 c++ 接口生成 sig 文件的。
+
+不带命令行参数执行 tls_licence_tools 可以看到打印出的工具帮助信息。
+
+下面用 linux 的工具演示下，windows 的工具类似。运行命令，
+./tls_licence_tools
+输出
+current version: 201511190000
+Usage:
+	get sig: ./tls_licence_tools gen pri_key_file sig_file sdkappid identifier
+	get sig e.g.: ./tls_licence_tools gen ec_key.pem sig 1400001052 xiaojun
+	verify sig: ./tls_licence_tools verify pub_key_file sig_file sdkappid identifier
+	verify sig e.g.: ./tls_licence_tools verify public.pem sig 1400001052 xiaojun
+
+用法如下
+./tls_licence_tools 命令 参数...
+
+生成 sig 命令如下
+./tls_licence_tools gen 私钥路径 存放sig的路径 sdkappid 用户id
+
+校验 sig 命令如下
+./tls_licence_tools verify 公钥路径 存放sig的路径 sdkappid 用户id
