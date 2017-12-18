@@ -2,7 +2,7 @@
 __author__ = 'xiliangma'
 
 
-from Backend.DB.DBConn import db
+from DBConn import db
 
 
 class UserNAS(db.Model):

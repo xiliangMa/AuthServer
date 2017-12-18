@@ -2,11 +2,11 @@
 __author__ = 'xiliangma'
 
 import hashlib
-from Backend.DB.DBConn import db
-from Backend.Utils.BackendUtils import *
-from Backend.Utils.SysConstant import *
-from Backend.DB.Model.UserSessionModel import UserSession
-from Backend.DB.Model.UserModel import User
+
+from backend.model.UserModel import User
+from backend.utils.BackendUtils import *
+from backend.utils.SysConstant import *
+
 
 def register(param):
     RETURNVALUE = {}
@@ -14,7 +14,6 @@ def register(param):
     RETURNVALUE[CODE] = 0
     RETURNVALUE[MESSAGE] = None
     try:
-
         user = User()
         user.Tel = param['tel']
         user.Name = param['name']
@@ -58,7 +57,7 @@ def login(param):
             RETURNVALUE[MESSAGE] = "user does not exist."
             RETURNVALUE[CODE] = 1
         else:
-            if user.Pwd != hashlib.md5(param['pwd'].hexdigest()):
+            if user.Pwd != hashlib.md5(param['pwd']).hexdigest():
                 RETURNVALUE[MESSAGE] = "User validation failure."
                 RETURNVALUE[CODE] = 1
             else:
@@ -74,7 +73,7 @@ def login(param):
         return buildReturnValue(RETURNVALUE)
 
 
-def updatePwd(param):
+def updatePwd(tel, param):
     RETURNVALUE = {}
     RETURNVALUE[VALUE] = []
     RETURNVALUE[CODE] = 0
@@ -85,11 +84,11 @@ def updatePwd(param):
             RETURNVALUE[MESSAGE] = "user does not exist."
             RETURNVALUE[CODE] = 1
         else:
-            if user.Pwd != param['oldPwd']:
+            if user.Pwd != hashlib.md5(param['oldPwd']).hexdigest():
                 RETURNVALUE[MESSAGE] = "User validation failure."
                 RETURNVALUE[CODE] = 1
             else:
-                user.Pwd = param['newPwd']
+                user.Pwd = hashlib.md5(param['newPwd']).hexdigest()
 
         return buildReturnValue(RETURNVALUE)
 
@@ -113,23 +112,43 @@ def getRandomCode(param):
         code = []
         code.append(randomCode)
         code.append(RANDOM_CODE_TIMEOUT)
-        result = senMessage(code, param['tel'])
+        result = senMessage(code, param)
 
         if result['result'] == 0:
-            userSession = UserSession.query.filter(UserSession.Tel == param['tel']).first()
+            userSession = UserSession.query.filter(UserSession.Tel == param).first()
             if userSession is None:
                 userSession = UserSession()
 
             #save random code
-            userSession.Tel = param['tel']
+            userSession.Tel = param
             userSession.RandomCode = randomCode
             db.session.add(userSession)
+            data = {}
+            data['randomCode'] = randomCode
+            RETURNVALUE[VALUE].append(data)
         else:
             RETURNVALUE[CODE] = 1
             RETURNVALUE[MESSAGE] = result['errmsg']
         return buildReturnValue(RETURNVALUE)
     except Exception as e:
         dbRollback(db)
+        RETURNVALUE[CODE] = 1
+        RETURNVALUE[MESSAGE] = e.message
+        return buildReturnValue(RETURNVALUE)
+
+
+def checkTel(param):
+    RETURNVALUE = {}
+    RETURNVALUE[VALUE] = []
+    RETURNVALUE[CODE] = 0
+    RETURNVALUE[MESSAGE] = None
+
+    try:
+        if User.query.filter(User.Tel == param).first() is not None:
+            RETURNVALUE[CODE] = 0
+            RETURNVALUE[MESSAGE] = "The phone number has been registered."
+        return buildReturnValue(RETURNVALUE)
+    except Exception as e:
         RETURNVALUE[CODE] = 1
         RETURNVALUE[MESSAGE] = e.message
         return buildReturnValue(RETURNVALUE)

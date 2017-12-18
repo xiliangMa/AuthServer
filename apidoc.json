@@ -1,0 +1,20 @@
+{
+  "name": "Auth Server",
+  "version": "1.0.0",
+  "description": "Auth Server API Document",
+  "title": "Auth Server API Document",
+  "url" : "http://localhost:port/authserver",
+  "sampleUrl": "http:localhost:port/authserver",
+  "header": {
+    "title": "Overview",
+    "filename": "header.md"
+  },
+  "footer": {
+    "title": "Copyright",
+    "filename": "footer.md"
+  },
+  "template": {
+    "withCompare": true,
+    "withGenerator": true
+  }
+}

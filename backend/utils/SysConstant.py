@@ -16,6 +16,7 @@ DB_NAME = "AuthServer"
 APP_ID = "1400045877"
 PRIVATE_KEY = "private_key"
 PUBLIC_KEY = "public_key"
+tlsDir = "/backend/extend/tls_sig_api-linux-64/tools/"
 
 
 # SmsSenderManager

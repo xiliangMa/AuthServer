@@ -1,0 +1,1 @@
+Copyright © 2013 - 2017 [www.cloud-times.com](http://www.cloud-times.com/) All Rights Reserved

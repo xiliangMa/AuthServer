@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 __author__ = 'xiliangma'
 
-import commands, random, time, os
+import commands
+import os
+import random
+import time
 from flask import jsonify
 from qcloudsms_py import SmsSingleSender
 from qcloudsms_py.httpclient import HTTPError
 
-from Backend.Utils.SysConstant import *
-from Backend.DB.Model.PPDevicesModel import PPDevices
-from Backend.DB.Model.UserModel import User
-from Backend.DB.Model.UserSessionModel import UserSession
-from Backend.DB.Model.NASDevicesModel import NASDevices
-from Backend.DB.DBConn import db
-
+from backend.model.UserSessionModel import UserSession
+from backend.model.NASDevicesModel import NASDevices
+from backend.model.PPDevicesModel import PPDevices
+from backend.model.UserModel import User
+from backend.utils.SysConstant import *
+from DBConn import db
 
 '''
    返回参数
@@ -41,7 +43,7 @@ def buildReturnValue(RETURNVALUE):
         1 verify
    ./tls_licence_tools gen 私钥文件路径 sig将要存放的路径 sdkappid 用户id（用户名）
 '''
-tlsPath = os.path.abspath(os.path.dirname("AuthServer.py")) + "/Backend/Extend/tls_sig_api-linux-64/tools/"
+tlsPath = os.path.abspath(os.path.dirname("AuthServer.py")) + tlsDir
 def sigKey(commType, userName, sdkAppId):
     (status, output) = commands.getstatusoutput(buildSigKeyComm(commType, userName, sdkAppId))
     if status == 0:

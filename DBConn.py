@@ -6,10 +6,10 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
-from Backend.Utils.SysConstant import *
+from backend.utils.SysConstant import *
 
 URI = "mysql://%s:%s@%s/%s" % (DB_USER_NAME, DB_PWD, DB_HOST, DB_NAME)
-app = Flask(__name__)
+app = Flask(__name__, static_url_path = '')
 app.config['SQLALCHEMY_DATABASE_URI'] = URI
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 

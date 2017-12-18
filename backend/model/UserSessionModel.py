@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 __author__ = 'xiliangma'
 
-
-from Backend.DB.DBConn import db
 from sqlalchemy.sql.sqltypes import TIMESTAMP
+
+from DBConn import db
+
 
 class UserSession(db.Model):
 

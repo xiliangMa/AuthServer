@@ -2,7 +2,7 @@
 
 __author__ = 'xiliangma'
 
-from Backend.RestApi.Resource import app
+from backend.restApi.Resource import app
 
 
 if __name__ == "__main__":
