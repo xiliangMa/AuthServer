@@ -10,11 +10,11 @@ from qcloudsms_py import SmsSingleSender
 from qcloudsms_py.httpclient import HTTPError
 
 from backend.model.UserSessionModel import UserSession
-from backend.model.NASDevicesModel import NASDevices
 from backend.model.PPDevicesModel import PPDevices
-from backend.model.UserModel import User
 from backend.utils.SysConstant import *
 from DBConn import db
+from backend.errors import BackendErrorCode
+from backend.errors import BackendErrorMessage
 
 '''
    返回参数
@@ -26,12 +26,10 @@ from DBConn import db
 
 def buildReturnValue(RETURNVALUE):
     if RETURNVALUE[CODE] == 0:
-        RETURNVALUE[CODE] = 0
         if RETURNVALUE[MESSAGE] is None:
             RETURNVALUE[MESSAGE] = 'SUCCESS'
         return jsonify(RETURNVALUE)
     else:
-        RETURNVALUE[CODE] = 1
         if RETURNVALUE[MESSAGE] is None:
             RETURNVALUE[MESSAGE] = 'FAILED'
         return jsonify(RETURNVALUE)
@@ -44,34 +42,39 @@ def buildReturnValue(RETURNVALUE):
    ./tls_licence_tools gen 私钥文件路径 sig将要存放的路径 sdkappid 用户id（用户名）
 '''
 tlsPath = os.path.abspath(os.path.dirname("AuthServer.py")) + tlsDir
-def sigKey(commType, userName, sdkAppId):
-    (status, output) = commands.getstatusoutput(buildSigKeyComm(commType, userName, sdkAppId))
-    if status == 0:
-        # get sigKey from file
-        filePath = tlsPath + sdkAppId + "_" + userName + "_sig"
-        (status, output) = getSigKey(filePath)
-    return status, output
+def sigKey(commType, tel, sdkAppId):
+
+    (errorCode, output) = commands.getstatusoutput(buildSigKeyComm(commType, str(tel), sdkAppId))
+    if errorCode != 0:
+        return errorCode, output
+
+    filePath = tlsPath + str(tel) + "_sig"
+    # get sigKey from file
+    (errorCode, output) = getSigKey(filePath)
+    return errorCode, output
 
 
-def buildSigKeyComm(commType, userName, sdkAppId):
+
+
+def buildSigKeyComm(commType, tel, sdkAppId):
     publicKey = tlsPath + PUBLIC_KEY
     ecKey = tlsPath + PRIVATE_KEY
-    sig = tlsPath + sdkAppId + '_' + userName + '_sig'
+    sig = tlsPath + str(tel) + '_sig'
     space = ' '
 
     if (commType == 0):
         type = 'tls_licence_tools gen'
-        comm = tlsPath + type + space + ecKey + space + sig + space + sdkAppId + space + userName
+        comm = tlsPath + type + space + ecKey + space + sig + space + sdkAppId + space + str(tel)
     else:
         type = 'tls_licence_tools verify'
-        comm = tlsPath + type + space + publicKey + space + sig + space + sdkAppId + space + userName
+        comm = tlsPath + type + space + publicKey + space + sig + space + sdkAppId + space + str(tel)
 
     return comm
 
 
 def getSigKey(filePath):
-    (status, output) = commands.getstatusoutput("cat " + filePath)
-    return status, output
+    (errorCode, output) = commands.getstatusoutput("cat " + filePath)
+    return errorCode, output
 
 
 '''
@@ -79,16 +82,14 @@ def getSigKey(filePath):
         0 user
         1 nas
 '''
-def allocationPPDeviceID(object, type):
-    pPDevices = PPDevices.query.filter(PPDevices.IsUsed == None).first()
-    if type == 0:
-        newObject = User.query.filter(User.Name == object.Name).first()
-        if newObject is not None:
-            pPDevices.IsUsed = newObject.Tel
-    else:
-        newObject = NASDevices.query.filter(NASDevices.NasId == object.NasId).first()
-        if newObject is not None:
-            pPDevices.IsUsed = newObject.NasId
+def allocationPPDeviceID(object, type, tel):
+    usedPPDevices = PPDevices.query.filter(PPDevices.IsUsed == tel).first()
+    if usedPPDevices is None:
+        pPDevices = PPDevices.query.filter(PPDevices.IsUsed == None).first()
+        if type == 0:
+            pPDevices.IsUsed = tel
+        else:
+            pPDevices.IsUsed = object.NasId
 
 
 
@@ -123,19 +124,35 @@ def senMessage(params, phone_numbers):
         print(e)
 
 
-def checkRandomCodeIsValid(tel):
-    status = True
-    localTime = time.time()
+def checkRandomCodeIsValid(tel, randomCode):
+    errorCode = 0
+    errorMessage = None
+
     userSession = UserSession.query.filter(UserSession.Tel == tel).first()
-    print userSession.CreateTime
+
+    if userSession is None:
+        errorCode = BackendErrorCode.RANDOM_CODE_INVALID_ERROR
+        errorMessage = BackendErrorMessage.RANDOM_CODE_INVALID_ERROR
+        return userSession, errorCode, errorMessage
+
+    # validate randomCode
+    if userSession.RandomCode != randomCode:
+        errorCode = BackendErrorCode.RANDOM_CODE_VALIDATE_ERROR
+        errorMessage = BackendErrorMessage.RANDOM_CODE_VALIDATE_ERROR
+        return userSession, errorCode, errorMessage
+
+    # validate randomCode is invalid
+    localTime = time.time()
     createTime = time.mktime(time.strptime(str(userSession.CreateTime), '%Y-%m-%d %H:%M:%S'))
     timeDiff = (localTime - createTime)/60
-    print timeDiff
+
     if (timeDiff > 5):
         db.session.delete(userSession)
-        status = False
-    return status, userSession
+        errorCode = BackendErrorCode.RANDOM_CODE_INVALID_ERROR
+        errorMessage = BackendErrorMessage.RANDOM_CODE_INVALID_ERROR
+        return userSession, errorCode, errorMessage
 
+    return userSession, errorCode, errorMessage
 
 
 

@@ -7,7 +7,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `Tel` bigint(30) NOT NULL,
-  `Name` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `Name` varchar(255) CHARACTER SET utf8,
   `Pwd` varchar(255) CHARACTER SET utf8 NOT NULL,
   `Email` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `SigKey` text CHARACTER SET utf8,

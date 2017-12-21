@@ -10,7 +10,7 @@ class UserSession(db.Model):
 
     __tablename__ = 'UserSession'
 
-    Tel = db.Column(db.BigInteger, primary_key = True, index = True, )
+    Tel = db.Column(db.BigInteger, primary_key = True, index = True)
     RandomCode = db.Column(db.Integer)
     CreateTime = db.Column(TIMESTAMP)
 

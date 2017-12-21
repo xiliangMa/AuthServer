@@ -54,18 +54,15 @@ def register():
 
     @apiParam {json} param {
                             "tel": (necessary = True),
-                            "name": (necessary = True),
                             "pwd": (necessary = True),
                             "randomCode": (necessary = True),
                             "email": (necessary = False)
                           }
     @apiParamExample {json} Request-Example:
                           {
-                            "tel":"18701656257",
-                            "name": "maxl",
+                            "tel":18701656257,
                             "pwd": "abc123",
-                            "randomCode": "3333",
-                            "email": "test@qq.com"
+                            "randomCode": 3333
                           }
 
     @apiSuccessExample {json} Success-Response:
@@ -84,25 +81,22 @@ def register():
     return UsersResourcesImpl.register(request.json)
 
 
-@app.route('/authserver/api/user/login', methods = ['POST'])
-def login():
+@app.route('/authserver/api/user/<tel>/login', methods = ['POST'])
+def login(tel):
     """
-    @api {get} /api/user/login
+    @api {get} /api/user/<tel>/login
     @apiVersion 1.0.0
     @apiName login
     @apiGroup user
     @apiDescription  User login
 
+    @apiParam {Number} tel necessary = True
     @apiParam {json} param {
-                            "tel": (necessary = True),
-                            "name": (necessary = True),
                             "pwd": (necessary = True)
                           }
 
      @apiParamExample {json} Request-Example:
                           {
-                            "tel":"18701656257",
-                            "name": "maxl",
                             "pwd": "abc123"
                           }
 
@@ -119,7 +113,7 @@ def login():
                        "value": ""
                        }
     """
-    return UsersResourcesImpl.login(request.json)
+    return UsersResourcesImpl.login(tel, request.json)
 
 
 @app.route('/authserver/api/user/<tel>/updatepwd', methods = ['PUT'])
@@ -131,17 +125,16 @@ def updatePwd(tel):
     @apiGroup user
     @apiDescription  Update user pwd
 
+    @apiParam {Number} tel necessary = True
     @apiParam {json} param {
-                            "tel": (necessary = True),
                             "newPwd": (necessary = True),
-                            "oldPwd": (necessary = True)
+                            "randomCode": (necessary = True)
                           }
 
      @apiParamExample {json} Request-Example:
                           {
-                            "tel":"18701656257",
                             "newPwd": "abc123",
-                            "oldPwd": "123456"
+                            "randomCode": 3333
                           }
 
     @apiSuccessExample {json} Success-Response:
