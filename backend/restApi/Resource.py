@@ -57,12 +57,14 @@ def register():
                             "pwd": (necessary = True),
                             "randomCode": (necessary = True),
                             "email": (necessary = False)
+                            "type": (necessary = TRue) 0 app 1 nas
                           }
     @apiParamExample {json} Request-Example:
                           {
                             "tel":18701656257,
                             "pwd": "abc123",
-                            "randomCode": 3333
+                            "randomCode": 3333,
+                            "type": 0
                           }
 
     @apiSuccessExample {json} Success-Response:

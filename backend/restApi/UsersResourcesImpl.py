@@ -25,13 +25,14 @@ def register(param):
         user = User()
         user.Tel = param['tel']
         user.Pwd = hashlib.md5(param['pwd']).hexdigest()
-        randomCode = param['randomCode']
-        # chec random code
-        (userSession, errorCode, errorMessage) = checkRandomCodeIsValid(user.Tel, randomCode)
-        if errorCode != 0:
-            RETURNVALUE[CODE] = errorCode
-            RETURNVALUE[MESSAGE] = errorMessage
-            return buildReturnValue(RETURNVALUE)
+        if param['type'] == 0:
+            randomCode = param['randomCode']
+            # chec random code
+            (userSession, errorCode, errorMessage) = checkRandomCodeIsValid(user.Tel, randomCode)
+            if errorCode != 0:
+                RETURNVALUE[CODE] = errorCode
+                RETURNVALUE[MESSAGE] = errorMessage
+                return buildReturnValue(RETURNVALUE)
 
         # createSigKey
         (errorCode, output) = sigKey(0, user.Tel, APP_ID)
@@ -48,7 +49,8 @@ def register(param):
         allocationPPDeviceID(user, 0, user.Tel)
 
         # remove userSession
-        db.session.delete(userSession)
+        if param['type'] == 0:
+            db.session.delete(userSession)
 
         return buildReturnValue(RETURNVALUE)
 
