@@ -23,3 +23,11 @@ tlsDir = "/backend/extend/tls_sig_api-linux-64/tools/"
 APP_KEY = "99149c9bd054676ee989e117aecd63e6"
 TEMPLATE_ID = 65720
 RANDOM_CODE_TIMEOUT = 5
+
+
+"""
+    to do add DB
+"""
+# requires auth
+admin = "admin@internal"
+md5Pwd = "e99a18c428cb38d5f260853678922e03"

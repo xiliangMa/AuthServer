@@ -7,6 +7,7 @@ from backend.model.UserModel import User
 from backend.utils.BackendUtils import *
 from backend.utils.SysConstant import *
 from backend.errors import BackendErrorCode
+from backend.utils.SysConstant import admin
 
 
 def register(param):
@@ -61,27 +62,17 @@ def register(param):
         return buildReturnValue(RETURNVALUE)
 
 
-def login(tel, param):
+def login(auth):
     RETURNVALUE = {}
     RETURNVALUE[VALUE] = []
     RETURNVALUE[CODE] = 0
     RETURNVALUE[MESSAGE] = None
     try:
-
-        user = User.query.filter(User.Tel == tel).first()
-        if user is None:
-            RETURNVALUE[MESSAGE] = BackendErrorMessage.USER_NOT_EXIST_ERROR
-            RETURNVALUE[CODE] = BackendErrorCode.USER_NOT_EXIST_ERROR
-            return buildReturnValue(RETURNVALUE)
-
-        if user.Pwd != hashlib.md5(param['pwd']).hexdigest():
-            RETURNVALUE[MESSAGE] = BackendErrorMessage.USER_PWD_ERROR
-            RETURNVALUE[CODE] = BackendErrorCode.USER_PWD_ERROR
-            return buildReturnValue(RETURNVALUE)
-
-        data = {}
-        data['sigKey'] = user.SigKey
-        RETURNVALUE[VALUE].append(data)
+        if auth.username != admin:
+            user = User.query.filter(User.Tel == auth.username).first()
+            data = {}
+            data['sigKey'] = user.SigKey
+            RETURNVALUE[VALUE].append(data)
 
         return buildReturnValue(RETURNVALUE)
 

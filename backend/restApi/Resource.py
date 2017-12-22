@@ -3,12 +3,11 @@ __author__ = 'xiliangma'
 
 
 
-from flask import request, send_file
+from flask import request
 
 import UsersResourcesImpl
 from DBConn import app
-
-
+from backend.utils.BackendUtils import requiresAuth
 
 @app.route('/authserver')
 def index():
@@ -16,6 +15,7 @@ def index():
 
 
 @app.route('/authserver/api/user/<tel>/checktel', methods = ['GET'])
+@requiresAuth
 def checkTel(tel):
     """
      @api {get} /api/user/<tel>/checktel
@@ -25,6 +25,8 @@ def checkTel(tel):
      @apiDescription  Check tel whether or not it has been registered
 
      @apiParam {Number} tel necessary = True
+     @apiParam {String} username necessary = True
+     @apiParam {String} password necessary = True
 
      @apiSuccessExample {json} Success-Response:
                         {
@@ -43,6 +45,7 @@ def checkTel(tel):
 
 
 @app.route('/authserver/api/user/register', methods = ['POST'])
+@requiresAuth
 def register():
     """
     @api {post} /api/user/register
@@ -51,6 +54,8 @@ def register():
     @apiGroup user
     @apiDescription  User register
 
+    @apiParam {String} username necessary = True
+    @apiParam {String} password necessary = True
 
     @apiParam {json} param {
                             "tel": (necessary = True),
@@ -83,8 +88,9 @@ def register():
     return UsersResourcesImpl.register(request.json)
 
 
-@app.route('/authserver/api/user/<tel>/login', methods = ['POST'])
-def login(tel):
+@app.route('/authserver/api/user/login', methods = ['GET'])
+@requiresAuth
+def login():
     """
     @api {get} /api/user/<tel>/login
     @apiVersion 1.0.0
@@ -92,15 +98,8 @@ def login(tel):
     @apiGroup user
     @apiDescription  User login
 
-    @apiParam {Number} tel necessary = True
-    @apiParam {json} param {
-                            "pwd": (necessary = True)
-                          }
-
-     @apiParamExample {json} Request-Example:
-                          {
-                            "pwd": "abc123"
-                          }
+    @apiParam {String} username necessary = True
+    @apiParam {String} password necessary = True
 
     @apiSuccessExample {json} Success-Response:
                        {
@@ -115,10 +114,11 @@ def login(tel):
                        "value": ""
                        }
     """
-    return UsersResourcesImpl.login(tel, request.json)
+    return UsersResourcesImpl.login(request.authorization)
 
 
 @app.route('/authserver/api/user/<tel>/updatepwd', methods = ['PUT'])
+@requiresAuth
 def updatePwd(tel):
     """
     @api {put} /api/user/<tel>/updatepwd
@@ -128,6 +128,8 @@ def updatePwd(tel):
     @apiDescription  Update user pwd
 
     @apiParam {Number} tel necessary = True
+    @apiParam {String} username necessary = True
+    @apiParam {String} password necessary = True
     @apiParam {json} param {
                             "newPwd": (necessary = True),
                             "randomCode": (necessary = True)
@@ -156,6 +158,7 @@ def updatePwd(tel):
 
 
 @app.route('/authserver/api/user/<tel>/getrandomcode', methods = ['GET'])
+@requiresAuth
 def getRandomCode(tel):
     """
      @api {get} api/user/<tel>/getrandomcode
@@ -165,6 +168,8 @@ def getRandomCode(tel):
      @apiDescription  Get random code
 
      @apiParam {Number} tel necessary = True
+     @apiParam {String} username necessary = True
+     @apiParam {String} password necessary = True
 
      @apiSuccessExample {json} Success-Response:
                         {

@@ -4,17 +4,69 @@ __author__ = 'xiliangma'
 import commands
 import os
 import random
+import hashlib
 import time
 from flask import jsonify
+from flask import request
+from functools import wraps
 from qcloudsms_py import SmsSingleSender
 from qcloudsms_py.httpclient import HTTPError
 
 from backend.model.UserSessionModel import UserSession
 from backend.model.PPDevicesModel import PPDevices
+from backend.model.UserModel import User
 from backend.utils.SysConstant import *
 from DBConn import db
 from backend.errors import BackendErrorCode
 from backend.errors import BackendErrorMessage
+from backend.utils.SysConstant import admin, md5Pwd
+
+
+def requiresAuth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        RETURNVALUE = {}
+        RETURNVALUE[VALUE] = []
+        RETURNVALUE[CODE] = 0
+        RETURNVALUE[MESSAGE] = None
+
+        auth = request.authorization
+
+        if auth is None:
+            RETURNVALUE[MESSAGE] = BackendErrorMessage.USER_NOT_EXIST_ERROR
+            RETURNVALUE[CODE] = BackendErrorCode.USER_NOT_EXIST_ERROR
+            return buildReturnValue(RETURNVALUE)
+
+        if auth.username == admin:
+            RETURNVALUE[CODE], RETURNVALUE[MESSAGE] = adminAuth(auth)
+            if RETURNVALUE[CODE] != 0:
+                return buildReturnValue(RETURNVALUE)
+        else:
+            RETURNVALUE[CODE], RETURNVALUE[MESSAGE] = userAuth(auth)
+            if RETURNVALUE[CODE] != 0:
+                return buildReturnValue(RETURNVALUE)
+
+        return f(*args, **kwargs)
+    return decorated
+
+
+def adminAuth(auth):
+    if md5Pwd != hashlib.md5(auth.password).hexdigest():
+        return BackendErrorCode.USER_PWD_ERROR, BackendErrorMessage.USER_PWD_ERROR
+    return 0, None
+
+
+def userAuth(auth):
+    tel = auth.username
+    pwd = auth.password
+    user = User.query.filter(User.Tel == tel).first()
+    if user is None:
+        return BackendErrorCode.USER_NOT_EXIST_ERROR, BackendErrorMessage.USER_NOT_EXIST_ERROR
+
+    if user.Pwd != hashlib.md5(pwd).hexdigest():
+        return BackendErrorCode.USER_PWD_ERROR, BackendErrorMessage.USER_PWD_ERROR
+    return 0, None
+
 
 '''
    返回参数
