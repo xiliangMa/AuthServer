@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Auth Server API Document",
   "title": "Auth Server API Document",
-  "url" : "https://localhost:port/authserver",
-  "sampleUrl": "https:localhost:port/authserver",
+  "url" : "http://localhost:port/authserver",
+  "sampleUrl": "http:localhost:port/authserver",
   "header": {
     "title": "Overview",
     "filename": "header.md"

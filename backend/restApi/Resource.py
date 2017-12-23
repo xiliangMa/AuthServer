@@ -92,7 +92,7 @@ def register():
 @requiresAuth
 def login():
     """
-    @api {get} /api/user/<tel>/login
+    @api {get} /api/user/login
     @apiVersion 1.0.0
     @apiName login
     @apiGroup user
