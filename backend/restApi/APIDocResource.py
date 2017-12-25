@@ -2,7 +2,7 @@
 __author__ = 'xiliangma'
 
 from flask.ext.restful import Resource, reqparse, abort
-from DBConn import app
+from FlaskManager import app
 
 class APIDoc(Resource):
 

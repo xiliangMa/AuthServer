@@ -3,7 +3,7 @@ __author__ = 'xiliangma'
 
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 
-from DBConn import db
+from FlaskManager import db
 
 
 class PShare(db.Model):

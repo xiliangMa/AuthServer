@@ -2,7 +2,7 @@
 __author__ = 'xiliangma'
 
 
-from DBConn import db
+from FlaskManager import db
 
 
 class PPDevices(db.Model):

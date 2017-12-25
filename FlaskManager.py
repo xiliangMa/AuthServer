@@ -5,6 +5,8 @@ __author__ = 'xiliangma'
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from flask_httpauth import HTTPBasicAuth
+
 
 from backend.utils.SysConstant import *
 
@@ -14,6 +16,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = URI
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
 db = SQLAlchemy(app)
+
+httpAuth = HTTPBasicAuth()
 
 # 跨域访问问题
 CORS(app)

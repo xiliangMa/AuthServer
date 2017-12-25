@@ -6,10 +6,12 @@ __author__ = 'xiliangma'
 from flask import request
 
 import UsersResourcesImpl
-from DBConn import app
+from FlaskManager import app, httpAuth
 from backend.utils.BackendUtils import requiresAuth
 
+
 @app.route('/authserver')
+@httpAuth.login_required
 def index():
     return app.send_static_file('index.html')
 

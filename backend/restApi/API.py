@@ -3,7 +3,7 @@ __author__ = 'xiliangma'
 
 from flask.ext.restful import Api
 
-from DBConn import app
+from FlaskManager import app
 from backend.restApi.UserResource import UserAPI
 from backend.restApi.UserResource import UserListAPI
 from backend.restApi.APIDocResource import APIDoc

@@ -16,10 +16,23 @@ from backend.model.UserSessionModel import UserSession
 from backend.model.PPDevicesModel import PPDevices
 from backend.model.UserModel import User
 from backend.utils.SysConstant import *
-from DBConn import db
+from FlaskManager import db, httpAuth
 from backend.errors import BackendErrorCode
 from backend.errors import BackendErrorMessage
 from backend.utils.SysConstant import admin, md5Pwd
+
+@httpAuth.verify_password
+def verify_password(username, password):
+
+    if username == admin:
+        code, message = adminAuth(password)
+        if code != 0:
+            return False
+    else:
+        code, message = userAuth(username, password)
+        if code != 0:
+            return False
+    return True
 
 
 def requiresAuth(f):
@@ -38,11 +51,11 @@ def requiresAuth(f):
             return buildReturnValue(RETURNVALUE)
 
         if auth.username == admin:
-            RETURNVALUE[CODE], RETURNVALUE[MESSAGE] = adminAuth(auth)
+            RETURNVALUE[CODE], RETURNVALUE[MESSAGE] = adminAuth(auth.password)
             if RETURNVALUE[CODE] != 0:
                 return buildReturnValue(RETURNVALUE)
         else:
-            RETURNVALUE[CODE], RETURNVALUE[MESSAGE] = userAuth(auth)
+            RETURNVALUE[CODE], RETURNVALUE[MESSAGE] = userAuth(auth.username, auth.password)
             if RETURNVALUE[CODE] != 0:
                 return buildReturnValue(RETURNVALUE)
 
@@ -50,15 +63,13 @@ def requiresAuth(f):
     return decorated
 
 
-def adminAuth(auth):
-    if md5Pwd != hashlib.md5(auth.password).hexdigest():
+def adminAuth(pwd):
+    if md5Pwd != hashlib.md5(pwd).hexdigest():
         return BackendErrorCode.USER_PWD_ERROR, BackendErrorMessage.USER_PWD_ERROR
     return 0, None
 
 
-def userAuth(auth):
-    tel = auth.username
-    pwd = auth.password
+def userAuth(tel, pwd):
     user = User.query.filter(User.Tel == tel).first()
     if user is None:
         return BackendErrorCode.USER_NOT_EXIST_ERROR, BackendErrorMessage.USER_NOT_EXIST_ERROR
