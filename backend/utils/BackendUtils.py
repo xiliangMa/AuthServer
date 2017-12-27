@@ -7,8 +7,8 @@ import random
 import hashlib
 import time
 from flask import jsonify
-from flask import request
-from functools import wraps
+# from flask import request
+# from functools import wraps
 from qcloudsms_py import SmsSingleSender
 from qcloudsms_py.httpclient import HTTPError
 
@@ -39,35 +39,35 @@ def verify_password(username, password):
     return True
 
 
-def requiresAuth(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        RETURNVALUE = {}
-        RETURNVALUE[VALUE] = []
-        RETURNVALUE[CODE] = 0
-        RETURNVALUE[MESSAGE] = None
-
-        auth = request.authorization
-
-        if auth is None:
-            RETURNVALUE[MESSAGE] = BackendErrorMessage.USER_NOT_EXIST_ERROR
-            RETURNVALUE[CODE] = BackendErrorCode.USER_NOT_EXIST_ERROR
-            log.error(RETURNVALUE)
-            return buildReturnValue(RETURNVALUE)
-
-        if auth.username == ADMIN:
-            RETURNVALUE[CODE], RETURNVALUE[MESSAGE] = adminAuth(auth.password)
-            if RETURNVALUE[CODE] != 0:
-                log.error(RETURNVALUE)
-                return buildReturnValue(RETURNVALUE)
-        else:
-            RETURNVALUE[CODE], RETURNVALUE[MESSAGE] = userAuth(auth.username, auth.password)
-            if RETURNVALUE[CODE] != 0:
-                log.error(RETURNVALUE)
-                return buildReturnValue(RETURNVALUE)
-
-        return f(*args, **kwargs)
-    return decorated
+# def requiresAuth(f):
+#     @wraps(f)
+#     def decorated(*args, **kwargs):
+#         RETURNVALUE = {}
+#         RETURNVALUE[VALUE] = []
+#         RETURNVALUE[CODE] = 0
+#         RETURNVALUE[MESSAGE] = None
+#
+#         auth = request.authorization
+#
+#         if auth is None:
+#             RETURNVALUE[MESSAGE] = BackendErrorMessage.USER_NOT_EXIST_ERROR
+#             RETURNVALUE[CODE] = BackendErrorCode.USER_NOT_EXIST_ERROR
+#             log.error(RETURNVALUE)
+#             return buildReturnValue(RETURNVALUE)
+#
+#         if auth.username == ADMIN:
+#             RETURNVALUE[CODE], RETURNVALUE[MESSAGE] = adminAuth(auth.password)
+#             if RETURNVALUE[CODE] != 0:
+#                 log.error(RETURNVALUE)
+#                 return buildReturnValue(RETURNVALUE)
+#         else:
+#             RETURNVALUE[CODE], RETURNVALUE[MESSAGE] = userAuth(auth.username, auth.password)
+#             if RETURNVALUE[CODE] != 0:
+#                 log.error(RETURNVALUE)
+#                 return buildReturnValue(RETURNVALUE)
+#
+#         return f(*args, **kwargs)
+#     return decorated
 
 
 def adminAuth(pwd):

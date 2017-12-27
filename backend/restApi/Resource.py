@@ -2,12 +2,9 @@
 __author__ = 'xiliangma'
 
 
-
-from flask import request
-
 import UsersResourcesImpl
+from flask import request
 from FlaskManager import app, httpAuth
-from backend.utils.BackendUtils import requiresAuth
 
 
 @app.route('/authserver')
@@ -17,7 +14,7 @@ def index():
 
 
 @app.route('/authserver/api/user/<tel>/checktel', methods = ['GET'])
-@requiresAuth
+@httpAuth.login_required
 def checkTel(tel):
     """
      @api {get} /api/user/<tel>/checktel
@@ -47,7 +44,7 @@ def checkTel(tel):
 
 
 @app.route('/authserver/api/user/register', methods = ['POST'])
-@requiresAuth
+@httpAuth.login_required
 def register():
     """
     @api {post} /api/user/register
@@ -91,7 +88,7 @@ def register():
 
 
 @app.route('/authserver/api/user/login', methods = ['GET'])
-@requiresAuth
+@httpAuth.login_required
 def login():
     """
     @api {get} /api/user/login
@@ -120,7 +117,7 @@ def login():
 
 
 @app.route('/authserver/api/user/<tel>/updatepwd', methods = ['PUT'])
-@requiresAuth
+@httpAuth.login_required
 def updatePwd(tel):
     """
     @api {put} /api/user/<tel>/updatepwd
@@ -160,7 +157,7 @@ def updatePwd(tel):
 
 
 @app.route('/authserver/api/user/<tel>/getrandomcode', methods = ['GET'])
-@requiresAuth
+@httpAuth.login_required
 def getRandomCode(tel):
     """
      @api {get} api/user/<tel>/getrandomcode
