@@ -7,8 +7,11 @@ from backend.model.UserModel import User
 from backend.utils.BackendUtils import *
 from backend.utils.SysConstant import *
 from backend.errors import BackendErrorCode
-from backend.utils.SysConstant import admin
+from backend.utils.SysConstant import ADMIN
+from backend.utils.LogManager import Log
 
+logManager = Log()
+log = logManager.getLogger("UsersResourcesImpl")
 
 def register(param):
     RETURNVALUE = {}
@@ -21,6 +24,7 @@ def register(param):
         if user is not None:
             RETURNVALUE[CODE] = BackendErrorCode.USER_IS_REGISTERED_ERROR
             RETURNVALUE[MESSAGE] = BackendErrorMessage.USER_IS_REGISTERED_ERROR
+            log.error(RETURNVALUE)
             return buildReturnValue(RETURNVALUE)
 
         user = User()
@@ -33,6 +37,7 @@ def register(param):
             if errorCode != 0:
                 RETURNVALUE[CODE] = errorCode
                 RETURNVALUE[MESSAGE] = errorMessage
+                log.error(RETURNVALUE)
                 return buildReturnValue(RETURNVALUE)
 
         # createSigKey
@@ -40,6 +45,7 @@ def register(param):
         if errorCode != 0:
             RETURNVALUE[MESSAGE] = output
             RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
+            log.error(RETURNVALUE)
             return buildReturnValue(RETURNVALUE)
 
         # add user
@@ -53,12 +59,14 @@ def register(param):
         if param['type'] == 0:
             db.session.delete(userSession)
 
+        log.info(RETURNVALUE)
         return buildReturnValue(RETURNVALUE)
 
     except Exception as e:
         dbRollback(db)
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
         RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        log.error(e.message)
         return buildReturnValue(RETURNVALUE)
 
 
@@ -68,17 +76,19 @@ def login(auth):
     RETURNVALUE[CODE] = 0
     RETURNVALUE[MESSAGE] = None
     try:
-        if auth.username != admin:
+        if auth.username != ADMIN:
             user = User.query.filter(User.Tel == auth.username).first()
             data = {}
             data['sigKey'] = user.SigKey
             RETURNVALUE[VALUE].append(data)
 
+        log.info(RETURNVALUE)
         return buildReturnValue(RETURNVALUE)
 
     except Exception as e:
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
         RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        log.error(e.message)
         return buildReturnValue(RETURNVALUE)
 
 
@@ -112,6 +122,7 @@ def updatePwd(tel, param):
         if user is None:
             RETURNVALUE[MESSAGE] = BackendErrorMessage.USER_NOT_EXIST_ERROR
             RETURNVALUE[CODE] = BackendErrorCode.USER_NOT_EXIST_ERROR
+            log.error(RETURNVALUE)
             return buildReturnValue(RETURNVALUE)
 
         # check randomCode
@@ -119,6 +130,7 @@ def updatePwd(tel, param):
         if errorCode != 0:
             RETURNVALUE[MESSAGE] = errorMessage
             RETURNVALUE[CODE] = errorCode
+            log.error(RETURNVALUE)
             return buildReturnValue(RETURNVALUE)
 
         # update pwd
@@ -127,12 +139,14 @@ def updatePwd(tel, param):
         # remove userSession
         db.session.delete(userSession)
 
+        log.info(RETURNVALUE)
         return buildReturnValue(RETURNVALUE)
 
     except Exception as e:
         dbRollback(db)
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
         RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        log.error(e.message)
         return buildReturnValue(RETURNVALUE)
 
 
@@ -154,6 +168,7 @@ def getRandomCode(tel):
         if result['result'] != 0:
             RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
             RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
+            log.error(RETURNVALUE)
             return buildReturnValue(RETURNVALUE)
 
         userSession = UserSession.query.filter(UserSession.Tel == tel).first()
@@ -170,11 +185,14 @@ def getRandomCode(tel):
         data['randomCode'] = randomCode
         RETURNVALUE[VALUE].append(data)
 
+        log.info(RETURNVALUE)
+
         return buildReturnValue(RETURNVALUE)
     except Exception as e:
         dbRollback(db)
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
         RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        log.error(e.message)
         return buildReturnValue(RETURNVALUE)
 
 
@@ -190,8 +208,14 @@ def checkTel(param):
             RETURNVALUE[CODE] = BackendErrorCode.USER_IS_REGISTERED_ERROR
             RETURNVALUE[MESSAGE] = BackendErrorMessage.USER_IS_REGISTERED_ERROR
 
+        if RETURNVALUE[CODE] == 0:
+            log.info(RETURNVALUE)
+        else:
+            log.error(RETURNVALUE)
+
         return buildReturnValue(RETURNVALUE)
     except Exception as e:
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
         RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        log.error(e.message)
         return buildReturnValue(RETURNVALUE)

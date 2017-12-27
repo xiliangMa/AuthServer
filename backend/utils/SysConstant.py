@@ -25,9 +25,13 @@ TEMPLATE_ID = 65720
 RANDOM_CODE_TIMEOUT = 5
 
 
-"""
-    to do add DB
-"""
 # requires auth
-admin = "admin@internal"
-md5Pwd = "e99a18c428cb38d5f260853678922e03"
+ADMIN = "admin@internal"
+MD5_PWD = "e99a18c428cb38d5f260853678922e03"
+
+
+# log
+LOG_FILE_NAME = "/var/log/authserver/authserver.log"
+LOG_UPDATE_UNIT = "D"
+LOG_UPDATE_TIME = 1
+LOG_BACKUP_COUNT = 10

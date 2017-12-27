@@ -19,12 +19,16 @@ from backend.utils.SysConstant import *
 from FlaskManager import db, httpAuth
 from backend.errors import BackendErrorCode
 from backend.errors import BackendErrorMessage
-from backend.utils.SysConstant import admin, md5Pwd
+from backend.utils.SysConstant import ADMIN, MD5_PWD
+from backend.utils.LogManager import Log
+
+logManager = Log()
+log = logManager.getLogger("BackendUtils")
 
 @httpAuth.verify_password
 def verify_password(username, password):
 
-    if username == admin:
+    if username == ADMIN:
         code, message = adminAuth(password)
         if code != 0:
             return False
@@ -48,15 +52,18 @@ def requiresAuth(f):
         if auth is None:
             RETURNVALUE[MESSAGE] = BackendErrorMessage.USER_NOT_EXIST_ERROR
             RETURNVALUE[CODE] = BackendErrorCode.USER_NOT_EXIST_ERROR
+            log.error(RETURNVALUE)
             return buildReturnValue(RETURNVALUE)
 
-        if auth.username == admin:
+        if auth.username == ADMIN:
             RETURNVALUE[CODE], RETURNVALUE[MESSAGE] = adminAuth(auth.password)
             if RETURNVALUE[CODE] != 0:
+                log.error(RETURNVALUE)
                 return buildReturnValue(RETURNVALUE)
         else:
             RETURNVALUE[CODE], RETURNVALUE[MESSAGE] = userAuth(auth.username, auth.password)
             if RETURNVALUE[CODE] != 0:
+                log.error(RETURNVALUE)
                 return buildReturnValue(RETURNVALUE)
 
         return f(*args, **kwargs)
@@ -64,7 +71,7 @@ def requiresAuth(f):
 
 
 def adminAuth(pwd):
-    if md5Pwd != hashlib.md5(pwd).hexdigest():
+    if MD5_PWD != hashlib.md5(pwd).hexdigest():
         return BackendErrorCode.USER_PWD_ERROR, BackendErrorMessage.USER_PWD_ERROR
     return 0, None
 
@@ -180,11 +187,12 @@ phone_numbers: 18701657257
 ssender = SmsSingleSender(APP_ID, APP_KEY)
 def senMessage(params, phone_numbers):
     try:
+        log.info("Send randomCode to user.")
         return ssender.send_with_param(86, phone_numbers, TEMPLATE_ID, params)
     except HTTPError as e:
-        print(e)
+        log.error("Send randomCode : " + e.message)
     except Exception as e:
-        print(e)
+        log.error("Send randomCode : " + e.message)
 
 
 def checkRandomCodeIsValid(tel, randomCode):
