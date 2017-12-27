@@ -11,4 +11,4 @@ log = logManager.getLogger("UsersResourcesImpl")
 
 if __name__ == "__main__":
     log.info("Start AuthServer")
-    app.run(port=8081, host='0.0.0.0', debug=True)
+    app.run(port=8081, host='0.0.0.0', debug=True, ssl_context='adhoc')
