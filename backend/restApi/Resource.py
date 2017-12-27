@@ -23,10 +23,6 @@ def checkTel(tel):
      @apiGroup user
      @apiDescription  Check tel whether or not it has been registered
 
-     @apiParam {Number} tel necessary = True
-     @apiParam {String} username necessary = True
-     @apiParam {String} password necessary = True
-
      @apiSuccessExample {json} Success-Response:
                         {
                         "code": 0,
@@ -53,9 +49,6 @@ def register():
     @apiGroup user
     @apiDescription  User register
 
-    @apiParam {String} username necessary = True
-    @apiParam {String} password necessary = True
-
     @apiParam {json} param {
                             "tel": (necessary = True),
                             "pwd": (necessary = True),
@@ -63,6 +56,7 @@ def register():
                             "email": (necessary = False)
                             "type": (necessary = TRue) 0 app 1 nas
                           }
+
     @apiParamExample {json} Request-Example:
                           {
                             "tel":18701656257,
@@ -97,9 +91,6 @@ def login():
     @apiGroup user
     @apiDescription  User login
 
-    @apiParam {String} username necessary = True
-    @apiParam {String} password necessary = True
-
     @apiSuccessExample {json} Success-Response:
                        {
                        "code": 0,
@@ -122,13 +113,10 @@ def updatePwd(tel):
     """
     @api {put} /api/user/<tel>/updatepwd
     @apiVersion 1.0.0
-    @apiName login
+    @apiName updatepwd
     @apiGroup user
     @apiDescription  Update user pwd
 
-    @apiParam {Number} tel necessary = True
-    @apiParam {String} username necessary = True
-    @apiParam {String} password necessary = True
     @apiParam {json} param {
                             "newPwd": (necessary = True),
                             "randomCode": (necessary = True)
@@ -165,10 +153,6 @@ def getRandomCode(tel):
      @apiName getrandomcode
      @apiGroup user
      @apiDescription  Get random code
-
-     @apiParam {Number} tel necessary = True
-     @apiParam {String} username necessary = True
-     @apiParam {String} password necessary = True
 
      @apiSuccessExample {json} Success-Response:
                         {
