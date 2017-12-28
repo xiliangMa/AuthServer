@@ -1,0 +1,84 @@
+#!/bin/bash
+
+export APP_PATH=/root/work/bak/AuthServer/AuthServer.py
+operate=${1}
+APP_NAME="AuthServer"
+
+getPid(){
+    pid=$(ps -ef | grep '/bin/python /root/work/bak/AuthServer/AuthServer.py' | grep -v grep | awk '{print $2}')
+}
+
+startAuthServer(){
+    getPid
+    if [ "$pid" == ""  ]; then
+        echo "Start $APP_NAME........"
+        python $APP_PATH > /dev/null 2>&1 &
+    else
+        echo "Can't start AuthServer,  AuthServer is running."
+    fi
+
+    sleep 1
+    getPid
+    if [ "$pid" == ""  ]; then
+        echo "Start Failure."
+    else
+        echo "Start Success."
+    fi
+}
+
+stopAuthServer() {
+    getPid
+    if [ "$pid" == "" ]; then
+        echo "Can't stop AuthServer, AuthServer is not running."
+    fi
+
+    for kpid in $pid; do
+        echo "Stop $APP_NAME  [pid: $kpid]........"
+        kill $kpid
+        sleep 1
+        getPid
+        if [ "$pid" == "" ]; then
+            echo "Stop Success."
+        else
+            echo "Stop Failure."
+        fi
+    done
+}
+
+restartAuthServer() {
+    echo "$APP_NAME restart..."
+    $0 stop
+    $0 start
+}
+
+statusAuthServer() {
+    getPid
+    echo "server    pid     status  "
+    echo "------------------------------"
+    if [ "$pid" == "" ]; then
+        echo "$APP_NAME     $pid    stoped"
+    else
+        echo "$APP_NAME     $pid    started"
+    fi
+}
+
+
+case "$operate" in
+    start)
+        startAuthServer
+        ;;
+    stop)
+        stopAuthServer
+        ;;
+    restart)
+        restartAuthServer
+        ;;
+    status)
+        statusAuthServer
+        ;;
+    *)
+        echo -e "Usage params: start|stop|status|restart"
+        ;;
+esac
+
+exit 0
