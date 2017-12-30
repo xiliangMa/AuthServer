@@ -7,7 +7,7 @@ from SysConstant import LOG_FILE_NAME, LOG_UPDATE_TIME, LOG_BACKUP_COUNT, LOG_UP
 
 
 class Log():
-    format = "%(asctime)s  %(levelname)s [%(name)s - %(funcName)s] [Thread: %(thread)d] - %(message)s"
+    format = "%(asctime)s  %(levelname)s [%(name)s - %(funcName)s] [Thread: %(thread)d]  [Line: %(lineno)s] - %(message)s"
     logging.basicConfig(
         level = logging.DEBUG,
         format = format,

@@ -30,7 +30,11 @@ def register(param):
         user = User()
         user.Tel = param['tel']
         user.Pwd = hashlib.md5(param['pwd']).hexdigest()
-        if param['type'] == 0:
+        user.Email = param['email']
+        user.Name = param['name']
+        type = param['type']
+
+        if type == 0:
             randomCode = param['randomCode']
             # chec random code
             (userSession, errorCode, errorMessage) = checkRandomCodeIsValid(user.Tel, randomCode)
@@ -56,7 +60,7 @@ def register(param):
         allocationPPDeviceID(user, 0, user.Tel)
 
         # remove userSession
-        if param['type'] == 0:
+        if type == 0:
             db.session.delete(userSession)
 
         log.info(RETURNVALUE)

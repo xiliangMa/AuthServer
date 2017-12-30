@@ -2,8 +2,8 @@
 
 __author__ = 'xiliangma'
 
-from backend.restApi.Resource import app
-# from backend.restApi.API import app
+# from backend.restApi.Resource import app
+from backend.restapi.API import app
 from backend.utils.LogManager import Log
 
 logManager = Log()

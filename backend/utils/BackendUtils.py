@@ -27,7 +27,6 @@ log = logManager.getLogger("BackendUtils")
 
 @httpAuth.verify_password
 def verify_password(username, password):
-
     if username == ADMIN:
         code, message = adminAuth(password)
         if code != 0:
@@ -196,6 +195,7 @@ def senMessage(params, phone_numbers):
 
 
 def checkRandomCodeIsValid(tel, randomCode):
+
     errorCode = 0
     errorMessage = None
 
@@ -228,7 +228,6 @@ def checkRandomCodeIsValid(tel, randomCode):
 
 
 if __name__ == "__main__":
-    checkRandomCodeIsValid('18701656257')
     pass
     # sigKey(1, 'maxl', '1255610113')
     # sigKey(1, 'test2', '1255610839')
