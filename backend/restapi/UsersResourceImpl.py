@@ -6,9 +6,10 @@ import hashlib
 from backend.model.UserModel import User
 from backend.utils.BackendUtils import *
 from backend.utils.SysConstant import *
-from backend.errors import BackendErrorCode
+from backend.errors import BackendErrorCode, BackendErrorMessage
 from backend.utils.SysConstant import ADMIN
 from backend.utils.LogManager import Log
+from FlaskManager import db
 
 logManager = Log()
 log = logManager.getLogger("UsersResourcesImpl")

@@ -4,7 +4,7 @@ __author__ = 'xiliangma'
 
 from flask.ext.restful import Resource, reqparse
 from flask import request
-from backend.restapi.UsersResourcesImpl import checkTel, getRandomCode, login, register, updatePwd
+from backend.restapi.UsersResourceImpl import checkTel, getRandomCode, login, register, updatePwd
 from FlaskManager import httpAuth
 
 

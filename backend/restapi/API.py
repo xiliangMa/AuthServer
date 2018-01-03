@@ -6,12 +6,17 @@ from flask.ext.restful import Api
 from FlaskManager import app
 from backend.restapi.APIDocResource import APIDoc
 from backend.restapi.UserResource import getRandomCodeAPI, checTelAPI, registerAPI, loginAPI, updatePwdAPI
+from backend.restapi.PShareResource import addShareAPI
 
 
 api = Api(app)
 
+"""
+    API Doc
+"""
 api.add_resource(APIDoc, '/authserver')
 
+############################ User ############################
 
 """
  @api {get} /api/user/<tel>/checktel
@@ -129,8 +134,8 @@ api.add_resource(loginAPI, '/authserver/api/user/login', endpoint = 'login')
    @apiGroup user
    @apiDescription  Update user pwd
 
-    @apiParam {Number} tel required = True
-    @apiParam {String} randomCode required = True
+    @apiParam {String} newPwd required = True
+    @apiParam {Number} randomCode required = True
 
     @apiParamExample {json} Request-Example:
                          {
@@ -152,3 +157,42 @@ api.add_resource(loginAPI, '/authserver/api/user/login', endpoint = 'login')
                       }
 """
 api.add_resource(updatePwdAPI, '/authserver/api/user/<int:tel>/updatepwd', endpoint = 'updatepwd')
+
+
+############################ Share ############################
+"""
+   @api {put} /api/share
+   @apiVersion 1.0.0
+   @apiName addShare
+   @apiGroup user
+   @apiDescription  add public share
+
+    @apiParam {Number} nasId required = True
+    @apiParam {Number} shareId required = True
+    @apiParam {String} name required = True
+    @apiParam {Number} tel required = True
+    @apiParam {Number} heat required = False
+
+    @apiParamExample {json} Request-Example:
+                         {
+                           "nasId": 12344544,
+                           "shareId": 1,
+                           "name": "share1",
+                           "tel": 18701656257,
+                           "heat": 100
+                         }
+
+   @apiSuccessExample {json} Success-Response:
+                      {
+                      "code": 0,
+                      "message": "SUCCESS",
+                      "value": ""
+                      }
+   @apiErrorExample {json} Error-Response:
+                      {
+                      "code": 1,
+                      "message": "",
+                      "value": ""
+                      }
+"""
+api.add_resource(addShareAPI, '/authserver/api/share', endpoint = 'addshare')

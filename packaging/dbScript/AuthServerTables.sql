@@ -49,7 +49,7 @@ CREATE TABLE `nasdevices` (
 -- ----------------------------
 DROP TABLE IF EXISTS `pshare`;
 CREATE TABLE `pshare` (
-  `Id` int(11) NOT NULL,
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
   `NasId` bigint(30) NOT NULL,
   `ShareId` int(11) NOT NULL,
   `Name` varchar(255) DEFAULT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE `pshare` (
 -- ----------------------------
 DROP TABLE IF EXISTS `usernas`;
 CREATE TABLE `usernas` (
-  `Id` int(11) NOT NULL,
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Tel` bigint(30) NOT NULL,
   `NasId` varchar(255) NOT NULL,
   `IsAdmin` tinyint(1) DEFAULT FALSE,

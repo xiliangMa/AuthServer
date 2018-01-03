@@ -3,10 +3,16 @@ __author__ = 'xiliangma'
 
 SYSTEM_ERROR = "Unassigned Error."
 
+# user
 USER_IS_REGISTERED_ERROR = "User is registered."
 USER_NOT_EXIST_ERROR = "User not exist."
 USER_PWD_ERROR = "Passwd error."
 
+# random code
 RANDOM_CODE_VALIDATE_ERROR = "code validate error."
 RANDOM_CODE_INVALID_ERROR = "code invalid."
 RANDOM_NOT_EXIST_ERROR = "code not exist."
+
+# pshare
+PSHARE_IS_EXIST_ERROR = "PShare is exist."
+PSHARE_NOT_EXIST_ERROR = "PShare not exist."

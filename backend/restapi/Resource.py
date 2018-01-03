@@ -2,7 +2,7 @@
 __author__ = 'xiliangma'
 
 
-import UsersResourcesImpl
+import UsersResourceImpl
 from flask import request
 from FlaskManager import app, httpAuth
 
@@ -36,7 +36,7 @@ def checkTel(tel):
                         "value": ""
                         }
     """
-    return UsersResourcesImpl.checkTel(tel)
+    return UsersResourceImpl.checkTel(tel)
 
 
 @app.route('/authserver/api/user/register', methods = ['POST'])
@@ -78,7 +78,7 @@ def register():
                         "value": ""
                         }
     """
-    return UsersResourcesImpl.register(request.json)
+    return UsersResourceImpl.register(request.json)
 
 
 @app.route('/authserver/api/user/login', methods = ['GET'])
@@ -104,7 +104,7 @@ def login():
                        "value": ""
                        }
     """
-    return UsersResourcesImpl.login(request.authorization)
+    return UsersResourceImpl.login(request.authorization)
 
 
 @app.route('/authserver/api/user/<tel>/updatepwd', methods = ['PUT'])
@@ -141,7 +141,7 @@ def updatePwd(tel):
                        "value": ""
                        }
     """
-    return UsersResourcesImpl.updatePwd(tel, request.json)
+    return UsersResourceImpl.updatePwd(tel, request.json)
 
 
 @app.route('/authserver/api/user/<tel>/getrandomcode', methods = ['GET'])
@@ -167,7 +167,7 @@ def getRandomCode(tel):
                         "value": ""
                         }
     """
-    return UsersResourcesImpl.getRandomCode(tel)
+    return UsersResourceImpl.getRandomCode(tel)
 
 
 if __name__ == "__main__":
