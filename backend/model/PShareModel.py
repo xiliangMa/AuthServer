@@ -4,6 +4,7 @@ __author__ = 'xiliangma'
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from FlaskManager import db
 from NASDevicesModel import NASDevices
+from UserModel import User
 
 
 class PShare(db.Model):
@@ -14,7 +15,7 @@ class PShare(db.Model):
     NasId = db.Column(db.BigInteger, db.ForeignKey(NASDevices.NasId))
     ShareId = db.Column(db.Integer)
     Name = db.Column(db.String(255))
-    Tel = db.Column(db.BigInteger, db.ForeignKey('User.Tel'))
+    Tel = db.Column(db.BigInteger, db.ForeignKey(User.Tel))
     CreateTime = db.Column(TIMESTAMP)
     HEAT = db.Column(db.Integer)
 
