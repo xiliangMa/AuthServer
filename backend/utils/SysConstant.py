@@ -7,10 +7,10 @@ MESSAGE = "message"
 VALUE = "value"
 
 # DATA BASE
-DB_USER_NAME = "root"
+DB_USER_NAME = "authserver"
 DB_PWD = "abc123"
-DB_HOST = "192.168.110.27"
-DB_NAME = "AuthServer"
+HOST = "127.0.0.1"
+DB_NAME = "authserver"
 
 # TLS
 APP_ID = "1400045877"
@@ -32,6 +32,7 @@ MD5_PWD = "e99a18c428cb38d5f260853678922e03"
 
 # log
 LOG_FILE_NAME = "/var/log/authserver/authserver.log"
+LOG_PATH = "/var/log/authserver"
 LOG_UPDATE_UNIT = "D"
 LOG_UPDATE_TIME = 1
 LOG_BACKUP_COUNT = 10

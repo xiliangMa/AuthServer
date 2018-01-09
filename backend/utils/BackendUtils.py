@@ -21,6 +21,7 @@ from backend.errors import BackendErrorCode
 from backend.errors import BackendErrorMessage
 from backend.utils.SysConstant import ADMIN, MD5_PWD
 from backend.utils.LogManager import Log
+from SysConstant import LOG_PATH, LOG_FILE_NAME
 
 logManager = Log()
 log = logManager.getLogger("BackendUtils")
@@ -226,6 +227,12 @@ def checkRandomCodeIsValid(tel, randomCode):
     return userSession, errorCode, errorMessage
 
 
+def cheLogFile():
+    if not os.path.exists(LOG_PATH):
+        os.mkdir(LOG_PATH)
+
+    if not os.path.exists(LOG_FILE_NAME):
+        os.mknod(LOG_FILE_NAME)
 
 if __name__ == "__main__":
     pass
