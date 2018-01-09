@@ -11,7 +11,7 @@ CREATE TABLE `user` (
   `Pwd` varchar(255) CHARACTER SET utf8 NOT NULL,
   `Email` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `SigKey` text CHARACTER SET utf8,
-  `CreateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON ADD CURRENT_TIMESTAMP,
+  `CreateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `LastLoginTime` timestamp NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`Tel`),
   KEY `Tel_User_index` (`Tel`) USING BTREE
