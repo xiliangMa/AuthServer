@@ -1,7 +1,7 @@
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for user
+-- Table structure for User
 -- ----------------------------
 
 DROP TABLE IF EXISTS `User`;
@@ -20,7 +20,7 @@ CREATE TABLE `User` (
 
 
 -- ----------------------------
--- Table structure for ppdevices
+-- Table structure for PPDevices
 -- ----------------------------
 DROP TABLE IF EXISTS `PPDevices`;
 CREATE TABLE `PPDevices` (
@@ -31,7 +31,7 @@ CREATE TABLE `PPDevices` (
 
 
 -- ----------------------------
--- Table structure for nasdevices
+-- Table structure for NASDevices
 -- ----------------------------
 DROP TABLE IF EXISTS `NASDevices`;
 CREATE TABLE `NASDevices` (
@@ -45,7 +45,7 @@ CREATE TABLE `NASDevices` (
 
 
 -- ----------------------------
--- Table structure for pshare
+-- Table structure for PShare
 -- ----------------------------
 DROP TABLE IF EXISTS `PShare`;
 CREATE TABLE `PShare` (
@@ -63,7 +63,7 @@ CREATE TABLE `PShare` (
 
 
 -- ----------------------------
--- Table structure for usernas
+-- Table structure for UserNAS
 -- ----------------------------
 DROP TABLE IF EXISTS `UserNAS`;
 CREATE TABLE `UserNAS` (
@@ -79,10 +79,10 @@ CREATE TABLE `UserNAS` (
 
 
 -- ----------------------------
--- Table structure for usersession
+-- Table structure for UserSession
 -- ----------------------------
 DROP TABLE IF EXISTS `UserSession`;
-CREATE TABLE `usersession` (
+CREATE TABLE `UserSession` (
   `Tel` bigint(30) NOT NULL,
   `RandomCode` int(10) NOT NULL,
   `CreateTime` timestamp DEFAULT CURRENT_TIMESTAMP,
