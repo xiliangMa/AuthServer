@@ -161,7 +161,7 @@ api.add_resource(updatePwdAPI, '/authserver/api/user/<int:tel>/updatepwd', endpo
 
 ############################ PShare ############################
 """
-    @api {put} /api/pshare
+    @api {post} /api/pshare
     @apiVersion 1.0.0
     @apiName addPShare
     @apiGroup PShare
@@ -212,7 +212,7 @@ api.add_resource(addPShareAPI, '/authserver/api/pshare', endpoint = 'addpshare')
 
     @apiParamExample {json} Request-Example:
                  {
-                   "page", 1,
+                   "page": 1,
                    "limit": 20,
                    "sortField": 0,
                    "sortType": 1
