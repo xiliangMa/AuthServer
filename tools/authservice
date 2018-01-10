@@ -1,11 +1,11 @@
 #!/bin/bash
 
-export APP_PATH=/root/work/bak/AuthServer/AuthServer.py
+export APP_PATH=/usr/share/AuthServer/AuthServer.py
 operate=${1}
 APP_NAME="AuthServer"
 
 getPid(){
-    pid=$(ps -ef | grep '/bin/python /root/work/bak/AuthServer/AuthServer.py' | grep -v grep | awk '{print $2}')
+    pid=$(ps -ef | grep '/bin/python /usr/share/AuthServer/AuthServer.py' | grep -v grep | awk '{print $2}')
 }
 
 startAuthServer(){
