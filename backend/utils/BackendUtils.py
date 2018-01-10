@@ -112,6 +112,9 @@ def buildReturnValue(RETURNVALUE):
    ./tls_licence_tools gen 私钥文件路径 sig将要存放的路径 sdkappid 用户id（用户名）
 '''
 tlsPath = os.path.abspath(os.path.dirname("AuthServer.py")) + tlsDir
+if os.path.abspath(os.path.dirname("AuthServer.py")) is "/":
+    tlsPath = "/usr/share/AuthServer" + tlsDir
+
 def sigKey(commType, tel, sdkAppId):
 
     (errorCode, output) = commands.getstatusoutput(buildSigKeyComm(commType, str(tel), sdkAppId))
