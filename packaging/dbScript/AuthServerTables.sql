@@ -4,8 +4,8 @@ SET FOREIGN_KEY_CHECKS=0;
 -- Table structure for user
 -- ----------------------------
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
+DROP TABLE IF EXISTS `User`;
+CREATE TABLE `User` (
   `Tel` bigint(30) NOT NULL,
   `Name` varchar(255) CHARACTER SET utf8,
   `Pwd` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -22,8 +22,8 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Table structure for ppdevices
 -- ----------------------------
-DROP TABLE IF EXISTS `ppdevices`;
-CREATE TABLE `ppdevices` (
+DROP TABLE IF EXISTS `PPDevices`;
+CREATE TABLE `PPDevices` (
   `PPDeviceID` int(10) NOT NULL,
   `IsUsed` bigint(30),
   PRIMARY KEY (`PPDeviceID`)
@@ -33,8 +33,8 @@ CREATE TABLE `ppdevices` (
 -- ----------------------------
 -- Table structure for nasdevices
 -- ----------------------------
-DROP TABLE IF EXISTS `nasdevices`;
-CREATE TABLE `nasdevices` (
+DROP TABLE IF EXISTS `NASDevices`;
+CREATE TABLE `NASDevices` (
   `NasId` bigint(30) NOT NULL,
   `IP` bigint(10),
   `MAC` varchar(255),
@@ -47,8 +47,8 @@ CREATE TABLE `nasdevices` (
 -- ----------------------------
 -- Table structure for pshare
 -- ----------------------------
-DROP TABLE IF EXISTS `pshare`;
-CREATE TABLE `pshare` (
+DROP TABLE IF EXISTS `PShare`;
+CREATE TABLE `PShare` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `NasId` bigint(30) NOT NULL,
   `ShareId` int(11) NOT NULL,
@@ -57,36 +57,36 @@ CREATE TABLE `pshare` (
   `CreateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `HEAT` int(11) DEFAULT '0',
   PRIMARY KEY (`Id`),
-  CONSTRAINT `NasId_PShare_FK` FOREIGN KEY (`NasId`) REFERENCES `nasdevices` (`NasId`),
-  CONSTRAINT `Tel_PShare_FK` FOREIGN KEY (`Tel`) REFERENCES `user` (`Tel`)
+  CONSTRAINT `NasId_PShare_FK` FOREIGN KEY (`NasId`) REFERENCES `NASDevices` (`NasId`),
+  CONSTRAINT `Tel_PShare_FK` FOREIGN KEY (`Tel`) REFERENCES `User` (`Tel`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 -- ----------------------------
 -- Table structure for usernas
 -- ----------------------------
-DROP TABLE IF EXISTS `usernas`;
-CREATE TABLE `usernas` (
+DROP TABLE IF EXISTS `UserNAS`;
+CREATE TABLE `UserNAS` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Tel` bigint(30) NOT NULL,
   `NasId` varchar(255) NOT NULL,
   `IsAdmin` tinyint(1) DEFAULT FALSE,
   PRIMARY KEY (`Id`),
   KEY `Tel_UserNAS_index` (`Tel`) USING BTREE,
-  CONSTRAINT `Tel_UserNAS_FK` FOREIGN KEY (`Tel`) REFERENCES `user` (`Tel`),
-  CONSTRAINT `NasId_UserNAS_FK` FOREIGN KEY (`NasId`) REFERENCES `nasdevices` (`NasId`)
+  CONSTRAINT `Tel_UserNAS_FK` FOREIGN KEY (`Tel`) REFERENCES `User` (`Tel`),
+  CONSTRAINT `NasId_UserNAS_FK` FOREIGN KEY (`NasId`) REFERENCES `NASDevices` (`NasId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 -- ----------------------------
 -- Table structure for usersession
 -- ----------------------------
-DROP TABLE IF EXISTS `usersession`;
+DROP TABLE IF EXISTS `UserSession`;
 CREATE TABLE `usersession` (
   `Tel` bigint(30) NOT NULL,
   `RandomCode` int(10) NOT NULL,
   `CreateTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Tel`),
-  CONSTRAINT `Tel_UserSession_FK` FOREIGN KEY (`Tel`) REFERENCES `user` (`Tel`)
+  CONSTRAINT `Tel_UserSession_FK` FOREIGN KEY (`Tel`) REFERENCES `User` (`Tel`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

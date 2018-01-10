@@ -9,7 +9,7 @@ VALUE = "value"
 # DATA BASE
 DB_USER_NAME = "authserver"
 DB_PWD = "abc123"
-HOST = "127.0.0.1"
+DB_HOST = "127.0.0.1"
 DB_NAME = "authserver"
 
 # TLS
