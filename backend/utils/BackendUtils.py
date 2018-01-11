@@ -173,10 +173,12 @@ def dbRollback(db):
 
 '''
     Generating four digit random code
+    firt number is not 0
 '''
 def createPhoneCode():
     chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    x = random.choice(chars), random.choice(chars), random.choice(chars), random.choice(chars)
+    firstchars = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+    x = random.choice(firstchars), random.choice(chars), random.choice(chars), random.choice(chars)
     verifyCode = "".join(x)
     return verifyCode
 
