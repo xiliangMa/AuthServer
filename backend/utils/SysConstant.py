@@ -36,3 +36,8 @@ LOG_PATH = "/var/log/authserver"
 LOG_UPDATE_UNIT = "D"
 LOG_UPDATE_TIME = 1
 LOG_BACKUP_COUNT = 10
+
+
+# PPD
+PPD_CLASS_PATH = '/home/maxl/work/source/maxl/centos_x64/pgJNILib.jar:/home/maxl/work/source/maxl/centos_x64/pgAppLib.jar:/home/maxl/work/source/maxl/centos_x64/pgWebClient.jar:/home/maxl/work/source/maxl/centos_x64/'
+PPD_CONFIG = '/home/maxl/work/source/maxl/centos_x64/pgTunnelSvrTool.cfg'

@@ -24,7 +24,7 @@ CREATE TABLE `User` (
 -- ----------------------------
 DROP TABLE IF EXISTS `PPDevices`;
 CREATE TABLE `PPDevices` (
-  `PPDeviceID` int(10) NOT NULL,
+  `PPDeviceID` varchar(255) CHARACTER SET utf8  NOT NULL,
   `IsUsed` bigint(30),
   PRIMARY KEY (`PPDeviceID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

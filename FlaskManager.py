@@ -36,11 +36,6 @@ httpAuth = HTTPBasicAuth()
 """
 CORS(app)
 
-"""
-    init logMange
-"""
-
-
 if __name__ == "__main__":
     print URI
 
