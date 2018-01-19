@@ -19,9 +19,10 @@ from backend.utils.SysConstant import *
 from FlaskManager import db, httpAuth
 from backend.errors import BackendErrorCode
 from backend.errors import BackendErrorMessage
-from backend.utils.SysConstant import ADMIN, MD5_PWD
+from backend.utils.SysConstant import ADMIN, MD5_PWD, PPD_USER_HEAD, PPD_USER_END
 from backend.utils.LogManager import Log
 from SysConstant import LOG_PATH, LOG_FILE_NAME
+from backend.utils.PPDClientApi import PPDClientApiManager
 
 logManager = Log()
 log = logManager.getLogger("BackendUtils")
@@ -156,13 +157,31 @@ def getSigKey(filePath):
         1 nas
 '''
 def allocationPPDeviceID(object, type, tel):
-    usedPPDevices = PPDevices.query.filter(PPDevices.IsUsed == tel).first()
-    if usedPPDevices is None:
-        pPDevices = PPDevices.query.filter(PPDevices.IsUsed == None).first()
-        if type == 0:
-            pPDevices.IsUsed = tel
-        else:
-            pPDevices.IsUsed = object.NasId
+    status = True
+    ppDevices = PPDevices()
+    ppDClinet = PPDClientApiManager()
+    ppDevices.PPDeviceID = None
+    log.info("PPDService request ppdUserAdd: Start.......")
+    if type == 0:
+        ppDevices.PPDeviceID = PPD_USER_HEAD + str(tel) + PPD_USER_END
+        ppDevices.IsUsed = tel
+    else:
+        ppDevices.PPDeviceID = PPD_USER_HEAD + str(object.NasId) + PPD_USER_END
+        ppDevices.IsUsed = object.NasId
+
+    iReqID = ppDClinet.ppdUserAdd(ppDevices.PPDeviceID, str(createPhoneCode))
+
+    if iReqID < 0:
+        if iReqID != -17:
+            log.info("PPDService request ppdUserAdd. Failed:  iReqID = " + str(iReqID) )
+            status = False
+
+    if status == True:
+        log.info("PPDService request ppdUserAdd. Success: iReqID = " + str(iReqID))
+        db.session.add(ppDevices)
+    return status
+
+
 
 
 
@@ -231,13 +250,6 @@ def checkRandomCodeIsValid(tel, randomCode):
 
     return userSession, errorCode, errorMessage
 
-
-def cheLogFile():
-    if not os.path.exists(LOG_PATH):
-        os.mkdir(LOG_PATH)
-
-    if not os.path.exists(LOG_FILE_NAME):
-        os.mknod(LOG_FILE_NAME)
 
 if __name__ == "__main__":
     pass

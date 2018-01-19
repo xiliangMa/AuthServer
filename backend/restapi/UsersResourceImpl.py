@@ -4,8 +4,10 @@ __author__ = 'xiliangma'
 import hashlib
 
 from backend.model.UserModel import User
-from backend.utils.BackendUtils import *
-from backend.utils.SysConstant import *
+from backend.model.UserSessionModel import UserSession
+from backend.utils.BackendUtils import checkRandomCodeIsValid, buildReturnValue, allocationPPDeviceID
+from backend.utils.BackendUtils import createPhoneCode, senMessage, dbRollback, sigKey
+from backend.utils.SysConstant import VALUE, CODE, MESSAGE, APP_ID
 from backend.errors import BackendErrorCode, BackendErrorMessage
 from backend.utils.SysConstant import ADMIN
 from backend.utils.LogManager import Log
@@ -45,6 +47,15 @@ def register(param):
                 log.error(RETURNVALUE)
                 return buildReturnValue(RETURNVALUE)
 
+
+        # Allocation PPDeviceID
+        if not allocationPPDeviceID(user, 0, user.Tel):
+            RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+            RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
+            log.error(RETURNVALUE)
+            return buildReturnValue(RETURNVALUE)
+
+
         # createSigKey
         (errorCode, output) = sigKey(0, user.Tel, APP_ID)
         if errorCode != 0:
@@ -57,13 +68,10 @@ def register(param):
         user.SigKey = output
         db.session.add(user)
 
-        # Allocation PPDeviceID
-        allocationPPDeviceID(user, 0, user.Tel)
-
         # remove userSession
         if type == 0:
             db.session.delete(userSession)
-
+        RETURNVALUE[VALUE].append(user.SigKey)
         log.info(RETURNVALUE)
         return buildReturnValue(RETURNVALUE)
 

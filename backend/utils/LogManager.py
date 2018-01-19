@@ -2,6 +2,7 @@
 __author__ = 'xiliangma'
 
 import logging
+import os
 import logging.handlers
 from SysConstant import LOG_FILE_NAME, LOG_UPDATE_TIME, LOG_BACKUP_COUNT, LOG_UPDATE_UNIT, LOG_PATH
 
@@ -36,4 +37,11 @@ class Log():
         logger.addHandler(self.console)
 
         return logger
+
+    def cheLogFile(self):
+        if not os.path.exists(LOG_PATH):
+            os.mkdir(LOG_PATH)
+
+        if not os.path.exists(LOG_FILE_NAME):
+            os.mknod(LOG_FILE_NAME)
 

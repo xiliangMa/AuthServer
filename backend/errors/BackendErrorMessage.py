@@ -2,6 +2,7 @@
 __author__ = 'xiliangma'
 
 SYSTEM_ERROR = "Unassigned Error."
+REQUEST_TIMES_OUT = "Request Time Out."
 
 # user
 USER_IS_REGISTERED_ERROR = "User is registered."

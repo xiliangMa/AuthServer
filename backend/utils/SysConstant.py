@@ -41,3 +41,5 @@ LOG_BACKUP_COUNT = 10
 # PPD
 PPD_CLASS_PATH = '/home/maxl/work/source/maxl/centos_x64/pgJNILib.jar:/home/maxl/work/source/maxl/centos_x64/pgAppLib.jar:/home/maxl/work/source/maxl/centos_x64/pgWebClient.jar:/home/maxl/work/source/maxl/centos_x64/'
 PPD_CONFIG = '/home/maxl/work/source/maxl/centos_x64/pgTunnelSvrTool.cfg'
+PPD_USER_HEAD = "__DEV_"
+PPD_USER_END = "@pptun.com"
