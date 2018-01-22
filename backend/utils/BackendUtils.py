@@ -157,7 +157,6 @@ def getSigKey(filePath):
         1 nas
 '''
 def allocationPPDeviceID(object, type, tel):
-    status = True
     ppDevices = PPDevices()
     ppDClinet = PPDClientApiManager()
     ppDevices.PPDeviceID = None
@@ -171,15 +170,14 @@ def allocationPPDeviceID(object, type, tel):
 
     iReqID = ppDClinet.ppdUserAdd(ppDevices.PPDeviceID, str(createPhoneCode))
 
-    if iReqID < 0:
-        if iReqID != -17:
-            log.info("PPDService request ppdUserAdd. Failed:  iReqID = " + str(iReqID) )
-            status = False
-
-    if status == True:
+    if iReqID < 0 and iReqID != -17:
+        log.info("PPDService request ppdUserAdd. Failed:  iReqID = " + str(iReqID) )
+        return iReqID;
+    else:
         log.info("PPDService request ppdUserAdd. Success: iReqID = " + str(iReqID))
-        db.session.add(ppDevices)
-    return status
+
+    db.session.add(ppDevices)
+    return iReqID
 
 
 

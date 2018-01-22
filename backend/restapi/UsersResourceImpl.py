@@ -49,11 +49,16 @@ def register(param):
 
 
         # Allocation PPDeviceID
-        if not allocationPPDeviceID(user, 0, user.Tel):
-            RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
-            RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
-            log.error(RETURNVALUE)
-            return buildReturnValue(RETURNVALUE)
+        iReqID = allocationPPDeviceID(user, 0, user.Tel)
+        if iReqID < 0 and iReqID != -17:
+            if iReqID == -12:
+                log.warn("PPD client request time out, try again.")
+                iReqID = allocationPPDeviceID(user, 0, user.Tel)
+                if iReqID < 0 and iReqID != -17:
+                    RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+                    RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
+                    log.error(RETURNVALUE)
+                    return buildReturnValue(RETURNVALUE)
 
 
         # createSigKey
