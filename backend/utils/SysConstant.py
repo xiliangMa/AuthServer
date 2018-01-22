@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 __author__ = 'xiliangma'
 
+
+SYSTEM_PATH = '/usr/share/AuthServer/'
+
 # RESULT KEY
 CODE = "code"
 MESSAGE = "message"
@@ -39,7 +42,11 @@ LOG_BACKUP_COUNT = 10
 
 
 # PPD
-PPD_CLASS_PATH = '/home/maxl/work/source/maxl/centos_x64/pgJNILib.jar:/home/maxl/work/source/maxl/centos_x64/pgAppLib.jar:/home/maxl/work/source/maxl/centos_x64/pgWebClient.jar:/home/maxl/work/source/maxl/centos_x64/'
+PPD_PATH = '/usr/share/AuthServer/backend/extend/ppd_client_linux_x64/'
+PPD_CLASS_PATH = PPD_PATH + 'pgJNILib.jar:' + \
+                 PPD_PATH + 'pgAppLib.jar:' + \
+                 PPD_PATH + 'pgWebClient.jar:' + \
+                 PPD_PATH
 PPD_CONFIG = '/home/maxl/work/source/maxl/centos_x64/pgTunnelSvrTool.cfg'
 PPD_USER_HEAD = "__DEV_"
 PPD_USER_END = "@pptun.com"

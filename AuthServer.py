@@ -11,22 +11,35 @@ logManager = Log()
 log = logManager.getLogger("AuthServer")
 
 
-"""
-init JpypeManager
-"""
 jpypeManager = JpypeManager()
+
+"""
+    1. build PPD Client environment
+"""
+status = jpypeManager.checPPDClient()
+if status == 0 :
+    log.info("Check PPD Client run environment success.")
+else:
+    log.error("Check PPD Client run environment failed.")
+
+
+"""
+    2. init JpypeManager
+"""
+log.info("Start Jpype jvm...")
 jpypeManager.startJPype()
 
 
 """
-    init PPDServiceManager
+    3. init PPDServiceManager
 """
+log.info("Start PPD Client...")
 ppdService  = PPDClientManager()
 oTool = ppdService.loginPPDClient()
 
 
 if __name__ == "__main__":
     logManager.cheLogFile()
-    log.info("Start AuthServer")
+    log.info("Start AuthServer...")
     app.run(port=8081, host='0.0.0.0', debug=False, ssl_context='adhoc')
 
