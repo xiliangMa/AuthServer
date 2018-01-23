@@ -39,7 +39,6 @@ oTool = ppdService.loginPPDClient()
 
 
 if __name__ == "__main__":
-    logManager.cheLogFile()
     log.info("Start AuthServer...")
     app.run(port=8081, host='0.0.0.0', debug=False, ssl_context='adhoc')
 
