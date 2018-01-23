@@ -47,6 +47,6 @@ PPD_CLASS_PATH = PPD_PATH + 'pgJNILib.jar:' + \
                  PPD_PATH + 'pgAppLib.jar:' + \
                  PPD_PATH + 'pgWebClient.jar:' + \
                  PPD_PATH
-PPD_CONFIG = '/home/maxl/work/source/maxl/centos_x64/pgTunnelSvrTool.cfg'
+PPD_CONFIG = PPD_PATH + 'pgTunnelSvrTool.cfg'
 PPD_USER_HEAD = "__DEV_"
 PPD_USER_END = "@pptun.com"

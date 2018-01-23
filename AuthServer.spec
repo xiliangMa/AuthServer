@@ -12,7 +12,9 @@ Requires: mysql-server
 Requires: MySQL-python
 Requires: python-setuptools
 Requires: python-setuptools-devel
-Requires: python2-jpype
+Requires: java-1.8.0-openjdk-devel
+Requires: java-1.8.0-openjdk
+#Requires: python2-jpype
 
 
 %define  authserverpath /usr/share/
