@@ -3,6 +3,8 @@
 export APP_PATH=/usr/share/AuthServer/AuthServer.py
 operate=${1}
 APP_NAME="AuthServer"
+logPath="/var/log/authserver"
+logFile="/var/log/authserver/authserver.log"
 
 getPid(){
     pid=$(ps -ef | grep 'python /usr/share/AuthServer/AuthServer.py' | grep -v grep | awk '{print $2}')
@@ -62,6 +64,16 @@ statusAuthServer() {
     fi
 }
 
+setupAuthServer() {
+    echo "1:  Check log file...."
+    if [ ! -x "$logPath" ]; then
+        mkdir "$logPath"
+    fi
+    if [ ! -x "$logFile" ]; then
+        touch "$logFile"
+    fi
+    echo "1:  Check log file Success"
+}
 
 case "$operate" in
     start)
@@ -76,8 +88,11 @@ case "$operate" in
     status)
         statusAuthServer
         ;;
+    setup)
+        setupAuthServer
+        ;;
     *)
-        echo -e "Usage params: start|stop|status|restart"
+        echo -e "Usage params: start|stop|status|restart|setup"
         ;;
 esac
 
