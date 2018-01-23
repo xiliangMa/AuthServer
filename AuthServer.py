@@ -4,7 +4,7 @@ __author__ = 'xiliangma'
 
 from backend.restapi.API import app
 from backend.utils.LogManager import Log
-from backend.utils.PPDServiceManager import PPDClientManager, JpypeManager
+from backend.utils.PPDServiceManager import JpypeManager
 
 
 logManager = Log()
@@ -30,12 +30,12 @@ log.info("Start Jpype jvm...")
 jpypeManager.startJPype()
 
 
-"""
-    3. init PPDServiceManager
-"""
-log.info("Start PPD Client...")
-ppdService  = PPDClientManager()
-oTool = ppdService.loginPPDClient()
+# """
+#     3. init PPDServiceManager
+# """
+# log.info("Start PPD Client...")
+# ppdService  = PPDClientManager()
+# oTool = ppdService.loginPPDClient()
 
 
 if __name__ == "__main__":

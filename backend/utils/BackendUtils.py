@@ -19,10 +19,9 @@ from backend.utils.SysConstant import *
 from FlaskManager import db, httpAuth
 from backend.errors import BackendErrorCode
 from backend.errors import BackendErrorMessage
-from backend.utils.SysConstant import ADMIN, MD5_PWD, PPD_USER_HEAD, PPD_USER_END
+from backend.utils.SysConstant import ADMIN, MD5_PWD, PPD_USER_HEAD, PPD_USER_END, PPD_SLEEP_TIME
 from backend.utils.LogManager import Log
-from SysConstant import LOG_PATH, LOG_FILE_NAME
-from backend.utils.PPDClientApi import PPDClientApiManager
+from backend.utils.PPDServiceManager import PPDClientManager
 
 logManager = Log()
 log = logManager.getLogger("BackendUtils")
@@ -158,9 +157,11 @@ def getSigKey(filePath):
 '''
 def allocationPPDeviceID(object, type, tel):
     ppDevices = PPDevices()
-    ppDClinet = PPDClientApiManager()
     ppDevices.PPDeviceID = None
+    ppDClinetManager = PPDClientManager()
+    ppDClinet = ppDClinetManager.loginPPDClient()
     log.info("PPDService request ppdUserAdd: Start.......")
+    time.sleep(PPD_SLEEP_TIME)
     if type == 0:
         ppDevices.PPDeviceID = PPD_USER_HEAD + str(tel) + PPD_USER_END
         ppDevices.IsUsed = tel
@@ -168,7 +169,7 @@ def allocationPPDeviceID(object, type, tel):
         ppDevices.PPDeviceID = PPD_USER_HEAD + str(object.NasId) + PPD_USER_END
         ppDevices.IsUsed = object.NasId
 
-    iReqID = ppDClinet.ppdUserAdd(ppDevices.PPDeviceID, str(createPhoneCode))
+    iReqID = ppDClinet.UserAdd(ppDevices.PPDeviceID, str(createPhoneCode))
 
     if iReqID < 0 and iReqID != -17:
         log.info("PPDService request ppdUserAdd. Failed:  iReqID = " + str(iReqID) )
