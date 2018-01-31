@@ -48,6 +48,6 @@ PPD_CLASS_PATH = PPD_PATH + 'pgJNILib.jar:' + \
                  PPD_PATH + 'pgWebClient.jar:' + \
                  PPD_PATH
 PPD_CONFIG = PPD_PATH + 'pgTunnelSvrTool.cfg'
-PPD_USER_HEAD = "__DEV_"
+PPD_USER_HEAD = "_DEV_"
 PPD_USER_END = "@pptun.com"
 PPD_SLEEP_TIME = 4
