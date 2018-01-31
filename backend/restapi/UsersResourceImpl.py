@@ -7,7 +7,7 @@ from backend.model.UserModel import User
 from backend.model.UserSessionModel import UserSession
 from backend.utils.BackendUtils import checkRandomCodeIsValid, buildReturnValue, allocationPPDeviceID
 from backend.utils.BackendUtils import createPhoneCode, senMessage, dbRollback, sigKey
-from backend.utils.SysConstant import VALUE, CODE, MESSAGE, APP_ID
+from backend.utils.SysConstant import VALUE, CODE, MESSAGE, APP_ID, RANDOM_CODE_TIMEOUT
 from backend.errors import BackendErrorCode, BackendErrorMessage
 from backend.utils.SysConstant import ADMIN
 from backend.utils.LogManager import Log
