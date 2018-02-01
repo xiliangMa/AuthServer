@@ -5,6 +5,7 @@ import hashlib
 
 from backend.model.UserModel import User
 from backend.model.UserSessionModel import UserSession
+from backend.model.NASDevicesModel import NASDevices
 from backend.utils.BackendUtils import checkRandomCodeIsValid, buildReturnValue, allocationPPDeviceID
 from backend.utils.BackendUtils import createPhoneCode, senMessage, dbRollback, sigKey
 from backend.utils.SysConstant import VALUE, CODE, MESSAGE, APP_ID, RANDOM_CODE_TIMEOUT
@@ -46,6 +47,11 @@ def register(param):
                 RETURNVALUE[MESSAGE] = errorMessage
                 log.error(RETURNVALUE)
                 return buildReturnValue(RETURNVALUE)
+        else:
+            nasDevices = NASDevices()
+            nasDevices.NasId = param['tel']
+            nasDevices.IP = param['ip']
+            nasDevices.MAC = param['mac']
 
 
         # Allocation PPDeviceID
@@ -68,6 +74,10 @@ def register(param):
         # add user
         user.SigKey = output
         db.session.add(user)
+
+        # add nas
+        if type == 1:
+            db.session.add(nasDevices)
 
         # remove userSession
         if type == 0:

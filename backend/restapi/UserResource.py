@@ -30,6 +30,8 @@ class registerAPI(Resource):
         params.add_argument("email", type = str, location = "json", required = False)
         params.add_argument("randomCode", type = int, location = "json", required = False)
         params.add_argument("type", type = int, location = "json", required = True)
+        params.add_argument("ip", type = str, location = "json", required = False)
+        params.add_argument("mac", type = str, location = "json", required = False)
         return register(params.parse_args())
 
 

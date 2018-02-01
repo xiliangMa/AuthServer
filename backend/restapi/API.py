@@ -77,6 +77,8 @@ api.add_resource(getRandomCodeAPI, '/authserver/api/user/<int:tel>/getrandomcode
     @apiParam {Number} randomCode (type=0 required = True, type=1 required = False)
     @apiParam {String} email required = False
     @apiParam {String} name required = False
+    @apiParam {String} ip required = False
+    @apiParam {String} mac required = False
 
     @apiParamExample {json} Request-Example:
                           {
@@ -85,7 +87,9 @@ api.add_resource(getRandomCodeAPI, '/authserver/api/user/<int:tel>/getrandomcode
                             "randomCode": 3333,
                             "type": 0,
                             "email": "894244011@qq.com",
-                            "name": "test"
+                            "name": "test",
+                            "ip": "test",
+                            "mac": "test"
                           }
 
     @apiSuccessExample {json} Success-Response:
