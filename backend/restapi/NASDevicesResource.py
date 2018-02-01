@@ -10,7 +10,7 @@ class bindUserNASAPI(Resource):
     @httpAuth.login_required
     def post(self, nasId, tel):
         params = reqparse.RequestParser()
-        params.add_argument("IsAdmin", type = int, location = "json", required = True)
+        params.add_argument("isAdmin", location = "json", required = True)
         return bindUserNAS(params.parse_args(), nasId, tel)
 
 

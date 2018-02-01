@@ -29,7 +29,7 @@ def bindUserNAS(param, nasId, tel):
         userNas = UserNAS()
         userNas.Tel = tel
         userNas.NasId = nasId
-        userNas.IsAdmin = param['IsAdmin']
+        userNas.IsAdmin = param['isAdmin']
         db.session.add(userNas)
 
         log.info(RETURNVALUE)

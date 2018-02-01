@@ -339,11 +339,11 @@ api.add_resource(removePShareAPI, '/authserver/api/pshare/<int:shareId>/<int:nas
     @apiGroup Nas
     @apiDescription  User bind Nas Devices
 
-    @apiParam {Number} nasId IsAdmin = True, 0 false, 1 true
+    @apiParam {Number} nasId isAdmin = True
     
     @apiParamExample {json} Request-Example:
                          {
-                           "IsAdmin": 0
+                           "isAdmin": true
                          }
                          
     @apiSuccessExample {json} Success-Response:
