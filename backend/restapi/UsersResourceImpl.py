@@ -6,6 +6,7 @@ import hashlib
 from backend.model.UserModel import User
 from backend.model.UserSessionModel import UserSession
 from backend.model.NASDevicesModel import NASDevices
+from backend.model.UserNASModel import UserNAS
 from backend.utils.BackendUtils import checkRandomCodeIsValid, buildReturnValue, allocationPPDeviceID
 from backend.utils.BackendUtils import createPhoneCode, senMessage, dbRollback, sigKey
 from backend.utils.SysConstant import VALUE, CODE, MESSAGE, APP_ID, RANDOM_CODE_TIMEOUT
@@ -13,6 +14,7 @@ from backend.errors import BackendErrorCode, BackendErrorMessage
 from backend.utils.SysConstant import ADMIN
 from backend.utils.LogManager import Log
 from FlaskManager import db
+
 
 logManager = Log()
 log = logManager.getLogger("UsersResourcesImpl")
@@ -237,6 +239,30 @@ def checkTel(param):
         else:
             log.error(RETURNVALUE)
 
+        return buildReturnValue(RETURNVALUE)
+    except Exception as e:
+        RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
+        RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        log.error(e.message)
+        return buildReturnValue(RETURNVALUE)
+
+
+def getUserNASDevices(tel):
+    RETURNVALUE = {}
+    RETURNVALUE[VALUE] = []
+    RETURNVALUE[CODE] = 0
+    RETURNVALUE[MESSAGE] = None
+
+    try:
+        UserNASList = UserNAS.query.filter(UserNAS.Tel == tel).all()
+        for data in UserNASList:
+            userNas = {}
+            userNas['tel'] = data.Tel
+            userNas['nasId'] = data.NasId
+            userNas['isAdmin'] = data.IsAdmin
+            RETURNVALUE[VALUE].append(userNas)
+
+        log.info(RETURNVALUE)
         return buildReturnValue(RETURNVALUE)
     except Exception as e:
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR

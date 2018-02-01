@@ -4,7 +4,7 @@ __author__ = 'xiliangma'
 
 from flask.ext.restful import Resource, reqparse
 from flask import request
-from backend.restapi.UsersResourceImpl import checkTel, getRandomCode, login, register, updatePwd
+from backend.restapi.UsersResourceImpl import checkTel, getRandomCode, login, register, updatePwd, getUserNASDevices
 from FlaskManager import httpAuth
 
 
@@ -48,3 +48,9 @@ class updatePwdAPI(Resource):
         params.add_argument("newPwd", type = str, location = "json", required = True)
         params.add_argument("randomCode", type = int, location = "json", required = True)
         return updatePwd(tel, params.parse_args())
+
+
+class getUserNASDevicesAPI(Resource):
+    @httpAuth.login_required
+    def get(self, tel):
+        return getUserNASDevices(tel)

@@ -17,3 +17,7 @@ RANDOM_NOT_EXIST_ERROR = "code not exist."
 # pshare
 PSHARE_IS_EXIST_ERROR = "PShare is exist."
 PSHARE_NOT_EXIST_ERROR = "PShare not exist."
+
+# userNas
+NAS_USER_IS_BIND_ERROR = "User nad Nas id bind."
+NAS_USER_IS_NOT_BIND_ERROR = "User nad Nas is not bind."

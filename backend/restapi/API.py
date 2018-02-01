@@ -5,8 +5,9 @@ from flask.ext.restful import Api
 
 from FlaskManager import app
 from backend.restapi.APIDocResource import APIDoc
-from backend.restapi.UserResource import getRandomCodeAPI, checTelAPI, registerAPI, loginAPI, updatePwdAPI
+from backend.restapi.UserResource import getRandomCodeAPI, checTelAPI, registerAPI, loginAPI, updatePwdAPI, getUserNASDevicesAPI
 from backend.restapi.PShareResource import addPShareAPI, getPSharesAPI, updatePShareAPI, removePShareAPI
+from backend.restapi.NASDevicesResource import bindUserNASAPI, removeUserNASAPI
 
 
 api = Api(app)
@@ -163,6 +164,29 @@ api.add_resource(loginAPI, '/authserver/api/user/login', endpoint = 'login')
 api.add_resource(updatePwdAPI, '/authserver/api/user/<int:tel>/updatepwd', endpoint = 'updatepwd')
 
 
+"""
+    @api {get} /api/user/<int:tel>/nas
+    @apiVersion 1.0.0
+    @apiName getUserNASDevices
+    @apiGroup User
+    @apiDescription  get User NAS Devices
+
+    @apiSuccessExample {json} Success-Response:
+                       {
+                       "code": 0,
+                       "message": "SUCCESS",
+                       "value": ""
+                       }
+    @apiErrorExample {json} Error-Response:
+                       {
+                       "code": 1,
+                       "message": "",
+                       "value": ""
+                       }
+"""
+api.add_resource(getUserNASDevicesAPI, '/authserver/api/user/<int:tel>/nas', endpoint = 'getUserNASDevices')
+
+
 ############################ PShare ############################
 """
     @api {post} /api/pshare
@@ -306,3 +330,56 @@ api.add_resource(updatePShareAPI, '/authserver/api/pshare/<int:shareId>/<int:nas
                       }
 """
 api.add_resource(removePShareAPI, '/authserver/api/pshare/<int:shareId>/<int:nasId>', endpoint = 'removePShare')
+
+
+"""
+    @api {post} /api/nas/<int:nasId>/user/<int:tel>
+    @apiVersion 1.0.0
+    @apiName bindNASDevices
+    @apiGroup Nas
+    @apiDescription  User bind Nas Devices
+
+    @apiParam {Number} nasId IsAdmin = True, 0 false, 1 true
+    
+    @apiParamExample {json} Request-Example:
+                         {
+                           "IsAdmin": 0
+                         }
+                         
+    @apiSuccessExample {json} Success-Response:
+                      {
+                      "code": 0,
+                      "message": "SUCCESS",
+                      "value": []
+                    }
+    @apiErrorExample {json} Error-Response:
+                     {
+                      "code": 1,
+                      "message": "",
+                      "value": ""
+                      }
+"""
+api.add_resource(bindUserNASAPI, '/authserver/api/nas/<int:nasId>/user/<int:tel>', endpoint = 'bindNASDevices')
+
+
+"""
+    @api {delete} /api/nas/<int:nasId>/user/<int:tel> 
+    @apiVersion 1.0.0
+    @apiName removeNASDevices
+    @apiGroup Nas
+    @apiDescription  User dissolve Nas Devices
+    
+    @apiSuccessExample {json} Success-Response:
+                      {
+                      "code": 0,
+                      "message": "SUCCESS",
+                      "value": []
+                    }
+    @apiErrorExample {json} Error-Response:
+                     {
+                      "code": 1,
+                      "message": "",
+                      "value": ""
+                      }
+"""
+api.add_resource(removeUserNASAPI, '/authserver/api/nas/<int:nasId>/user/<int:tel>', endpoint = 'removeNASDevices')
