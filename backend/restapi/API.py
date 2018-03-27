@@ -43,7 +43,7 @@ api.add_resource(checTelAPI, '/authserver/api/user/<int:tel>/checktel', endpoint
 
 
 """
-  @api {get} api/user/<tel>/getrandomcode
+  @api {get} /api/user/<tel>/getrandomcode
   @apiVersion 1.0.0
   @apiName getrandomcode
   @apiGroup User

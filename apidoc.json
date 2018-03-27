@@ -1,8 +1,8 @@
 {
-  "name": "Auth Server",
+  "name": "AIchat Server",
   "version": "1.0.0",
-  "description": "Auth Server API Document",
-  "title": "Auth Server API Document",
+  "description": "AIchat Server API Document",
+  "title": "AIchat Server API Document",
   "url" : "https://localhost:port/authserver",
   "sampleUrl": "https://localhost:port/authserver",
   "header": {
