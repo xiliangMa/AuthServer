@@ -11,7 +11,7 @@ VALUE = "value"
 
 # DATA BASE
 DB_USER_NAME = "authserver"
-DB_PWD = "abc123"
+DB_PWD = "P@ssw0rd"
 DB_HOST = "127.0.0.1"
 DB_NAME = "authserver"
 
