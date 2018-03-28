@@ -286,11 +286,11 @@ api.add_resource(getPSharesAPI, '/authserver/api/pshares', endpoint = 'getpshare
     @apiGroup PShare
     @apiDescription  update public share
 
-    @apiParam {Boolean} isHeat required = True
+    @apiParam {Boolean} isHeat required = True (0 false, 1 true)
 
     @apiParamExample {json} Request-Example:
                          {
-                           "isHeat": true
+                           "isHeat": 0
                          }
 
     @apiSuccessExample {json} Success-Response:
@@ -339,11 +339,11 @@ api.add_resource(removePShareAPI, '/authserver/api/pshare/<int:shareId>/<int:nas
     @apiGroup Nas
     @apiDescription  User bind Nas Devices
 
-    @apiParam {Number} nasId isAdmin = True
+    @apiParam {Number} nasId isAdmin = True (0 false, 1 true)
     
     @apiParamExample {json} Request-Example:
                          {
-                           "isAdmin": true
+                           "isAdmin": 0
                          }
                          
     @apiSuccessExample {json} Success-Response:

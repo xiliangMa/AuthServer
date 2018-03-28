@@ -119,7 +119,7 @@ def updatePShare(shareId, nasId, param):
             log.error(RETURNVALUE)
             return buildReturnValue(RETURNVALUE)
 
-        if isHeat:
+        if isHeat == 1:
             pshare.HEAT = pshare.HEAT + 1
 
         log.info(RETURNVALUE)
