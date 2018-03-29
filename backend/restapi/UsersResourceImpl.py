@@ -8,7 +8,7 @@ from backend.model.UserSessionModel import UserSession
 from backend.model.NASDevicesModel import NASDevices
 from backend.model.UserNASModel import UserNAS
 from backend.utils.BackendUtils import checkRandomCodeIsValid, buildReturnValue, allocationPPDeviceID
-from backend.utils.BackendUtils import createPhoneCode, senMessage, dbRollback, sigKey
+from backend.utils.BackendUtils import createPhoneCode, senMessage, dbRollback, sigKey, updateIpToNumber
 from backend.utils.SysConstant import VALUE, CODE, MESSAGE, APP_ID, RANDOM_CODE_TIMEOUT
 from backend.errors import BackendErrorCode, BackendErrorMessage
 from backend.utils.SysConstant import ADMIN
@@ -52,7 +52,7 @@ def register(param):
         else:
             nasDevices = NASDevices()
             nasDevices.NasId = param['tel']
-            nasDevices.IP = param['ip']
+            nasDevices.IP = updateIpToNumber(param['ip'])
             nasDevices.MAC = param['mac']
 
 

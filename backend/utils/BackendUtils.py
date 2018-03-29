@@ -6,6 +6,7 @@ import os
 import random
 import hashlib
 import time
+import socket, struct
 from flask import jsonify
 # from flask import request
 # from functools import wraps
@@ -248,6 +249,11 @@ def checkRandomCodeIsValid(tel, randomCode):
         return userSession, errorCode, errorMessage
 
     return userSession, errorCode, errorMessage
+
+def updateIpToNumber(ip):
+    if ip is None:
+        return None
+    return socket.ntohl(struct.unpack("I", socket.inet_aton(str(ip)))[0])
 
 
 if __name__ == "__main__":
