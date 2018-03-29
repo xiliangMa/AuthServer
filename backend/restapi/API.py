@@ -89,8 +89,8 @@ api.add_resource(getRandomCodeAPI, '/authserver/api/user/<int:tel>/getrandomcode
                             "type": 0,
                             "email": "894244011@qq.com",
                             "name": "test",
-                            "ip": "test",
-                            "mac": "test"
+                            "ip": "1.1.1.1",
+                            "mac": "00:1a:4a:6f:00:03"
                           }
 
     @apiSuccessExample {json} Success-Response:
