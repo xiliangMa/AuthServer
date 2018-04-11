@@ -31,6 +31,8 @@ def addPShare(param):
         pshare.NasId = param['nasId']
         pshare.ShareId = param['shareId']
         pshare.Tel = param['tel']
+        pshare.Type = param['type']
+        pshare.ShareWith = param['shareWith']
         pshare.HEAT = param['heat']
         db.session.add(pshare)
 

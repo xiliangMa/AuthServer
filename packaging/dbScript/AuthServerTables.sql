@@ -51,8 +51,10 @@ DROP TABLE IF EXISTS `PShare`;
 CREATE TABLE `PShare` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `NasId` bigint(30) NOT NULL,
-  `ShareId` int(11) NOT NULL,
+  `ShareId` int(11) DEFAULT NULL,
   `Name` varchar(255) DEFAULT NULL,
+  `Type` int(11) DEFAULT NULL,
+  `ShareWith` text CHARACTER SET utf8 DEFAULT NULL,
   `Tel` bigint(30) DEFAULT NULL,
   `CreateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `HEAT` int(11) DEFAULT '0',

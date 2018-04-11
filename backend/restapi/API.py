@@ -207,7 +207,12 @@ api.add_resource(getUserNASDevicesAPI, '/authserver/api/user/<int:tel>/nas', end
                            "shareId": 1,
                            "name": "share1",
                            "tel": 18701656257,
-                           "heat": 100
+                           "heat": 100,
+                           "type": 1001,
+                           "shareWith": "{\"shares\":[
+                                            {\"shareId\":1,\"shareWith\": \"zhangsan\"},
+                                            {\"shareId\": 2,\"shareWith\": \"lisi\"}]
+                                         }"
                          }
 
     @apiSuccessExample {json} Success-Response:
