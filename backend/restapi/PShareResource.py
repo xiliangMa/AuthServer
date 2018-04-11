@@ -29,6 +29,11 @@ class getPSharesAPI(Resource):
         params.add_argument("limit", type = int, location = "json", required = False)
         params.add_argument("sortField", type = int, location = "json", required = False)
         params.add_argument("sortType", type = int, location = "json", required = False)
+        params.add_argument("type", type = int, location = "json", required = False)
+        params.add_argument("shareWith", type = str, location = "json", required = False)
+        params.add_argument("nasId", type = int, location = "json", required = False)
+        params.add_argument("tel", type = int, location = "json", required = False)
+        params.add_argument("name", type = str, location = "json", required = False)
         return getPShares(params.parse_args())
 
 

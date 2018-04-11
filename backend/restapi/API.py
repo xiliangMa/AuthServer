@@ -208,11 +208,8 @@ api.add_resource(getUserNASDevicesAPI, '/authserver/api/user/<int:tel>/nas', end
                            "name": "share1",
                            "tel": 18701656257,
                            "heat": 100,
-                           "type": 1001,
-                           "shareWith": "{\"shares\":[
-                                            {\"shareId\":1,\"shareWith\": \"zhangsan\"},
-                                            {\"shareId\": 2,\"shareWith\": \"lisi\"}]
-                                         }"
+                           "type": 1,
+                           "shareWith": " {\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}"
                          }
 
     @apiSuccessExample {json} Success-Response:
@@ -242,38 +239,43 @@ api.add_resource(addPShareAPI, '/authserver/api/pshare', endpoint = 'addpshare')
     @apiParam {Number} limit required = False, default 20
     @apiParam {Number} sortField required = False, (default 0, name 0, createTime 1, heat 2)
     @apiParam {Number} sortType required = Flase, (default asce, asce 0, desc 1)
+    @apiParam {Number} type required = False
+    @apiParam {Number} shareWith required = False, (Fuzzy query: true)
+    @apiParam {Number} nasId required = False
+    @apiParam {Number} tel required = Flase
+    @apiParam {Number} name required = Flase, (Fuzzy query: false)
 
     @apiParamExample {json} Request-Example:
                  {
                    "page": 1,
                    "limit": 20,
                    "sortField": 0,
-                   "sortType": 1
+                   "sortType": 1,
+                   "type": 1,
+                   "shareWith": "zhangsan,lisi",
+                   "nasId": 1,
+                   "tel": 18701656257,
+                   "name": "share1"
                  }
 
     @apiSuccessExample {json} Success-Response:
               {
-              "code": 0,
-              "message": "SUCCESS",
-              "value": [
-                {
-                  "createTime": "2018-01-03 16:51:06",
-                  "heat": 5,
-                  "name": "share6",
-                  "nasId": 123456,
-                  "shaeId": 6,
-                  "tel": 199
-                },
-                {
-                  "createTime": "2018-01-03 16:51:04",
-                  "heat": 3,
-                  "name": "share5",
-                  "nasId": 123456,
-                  "shaeId": 5,
-                  "tel": 188
+                  "code": 0, 
+                  "message": "SUCCESS", 
+                  "value": [
+                    {
+                      "createTime": "2018-04-11 16:53:16", 
+                      "heat": 100, 
+                      "name": "share1", 
+                      "nasId": 1, 
+                      "shaeId": 1, 
+                      "shareWith": "{\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}", 
+                      "tel": 18701656257, 
+                      "type": 1001
+                    }
+                  ]
                 }
-              ]
-            }
+              }
     @apiErrorExample {json} Error-Response:
              {
               "code": 1,
