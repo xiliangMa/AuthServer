@@ -268,6 +268,7 @@ api.add_resource(addPShareAPI, '/authserver/api/pshare', endpoint = 'addpshare')
                       "heat": 100, 
                       "name": "share1", 
                       "nasId": 1, 
+                      "id": 1,
                       "shaeId": 1, 
                       "shareWith": "{\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}", 
                       "tel": 18701656257, 

@@ -123,6 +123,7 @@ def getPShares(param):
         # build return value
         for data in datas:
             pshare = {}
+            pshare['id'] = data.Id
             pshare['name'] = data.Name
             pshare['nasId'] = data.NasId
             pshare['shaeId'] = data.ShareId
