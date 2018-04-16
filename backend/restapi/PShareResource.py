@@ -4,7 +4,7 @@ __author__ = 'xiliangma'
 
 from flask.ext.restful import Resource, reqparse
 from FlaskManager import httpAuth
-from PShareResourceImpl import addPShare, getPShares, updatePShare, removePShare
+from PShareResourceImpl import addPShare, getPShares, updatePShare, removePShare, removePShareByIds
 
 
 class addPShareAPI(Resource):
@@ -55,3 +55,11 @@ class removePShareAPI(Resource):
         params.add_argument("name", type = str, location = "json", required = False)
         params.add_argument("tel", type = int, location = "json", required = False)
         return removePShare(params.parse_args())
+
+
+class removePShareByIDSAPI(Resource):
+    @httpAuth.login_required
+    def post(self):
+        params = reqparse.RequestParser()
+        params.add_argument("ids", type = str, location = "json", required = False)
+        return removePShareByIds(params.parse_args())

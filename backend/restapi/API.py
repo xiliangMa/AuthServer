@@ -6,7 +6,7 @@ from flask.ext.restful import Api
 from FlaskManager import app
 from backend.restapi.APIDocResource import APIDoc
 from backend.restapi.UserResource import getRandomCodeAPI, checTelAPI, registerAPI, loginAPI, updatePwdAPI, getUserNASDevicesAPI
-from backend.restapi.PShareResource import addPShareAPI, getPSharesAPI, updatePShareAPI, removePShareAPI
+from backend.restapi.PShareResource import addPShareAPI, getPSharesAPI, updatePShareAPI, removePShareAPI, removePShareByIDSAPI
 from backend.restapi.NASDevicesResource import bindUserNASAPI, removeUserNASAPI
 
 
@@ -319,9 +319,9 @@ api.add_resource(updatePShareAPI, '/authserver/api/pshare/<int:shareId>/<int:nas
 """
     @api {post} /api/pshares/removepshare
     @apiVersion 1.0.0
-    @apiName removePShare
+    @apiName removePShares
     @apiGroup PShare
-    @apiDescription  remove public share
+    @apiDescription  remove public shares
 
     
     @apiParam {Number} id required = False
@@ -354,6 +354,38 @@ api.add_resource(updatePShareAPI, '/authserver/api/pshare/<int:shareId>/<int:nas
                       }
 """
 api.add_resource(removePShareAPI, '/authserver/api/pshares/removepshare', endpoint = 'removePShare')
+
+
+"""
+    @api {post} /api/pshares/removeByIds
+    @apiVersion 1.0.0
+    @apiName removePShareByIds
+    @apiGroup PShare
+    @apiDescription  remove public shares by ids
+
+    
+    @apiParam {String} ids required = False
+    
+     @apiParamExample {json} Request-Example:
+                 {
+                   "ids": "1,2,3"
+                 }
+
+
+    @apiSuccessExample {json} Success-Response:
+                      {
+                      "code": 0,
+                      "message": "SUCCESS",
+                      "value": []
+                    }
+    @apiErrorExample {json} Error-Response:
+                     {
+                      "code": 1,
+                      "message": "",
+                      "value": ""
+                      }
+"""
+api.add_resource(removePShareByIDSAPI, '/authserver/api/pshares/removeByIds', endpoint = 'removePShareByIds')
 
 
 """

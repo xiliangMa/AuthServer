@@ -8,7 +8,7 @@ from backend.utils.BackendUtils import dbRollback, buildReturnValue
 from backend.utils.SysConstant import VALUE, CODE, MESSAGE
 from FlaskManager import db
 from backend.model.PShareModel import PShare
-from sqlalchemy import and_
+from sqlalchemy import and_, or_
 
 logManager = Log()
 log = logManager.getLogger("PShareResourcesImpl")
@@ -213,6 +213,30 @@ def removePShare(param):
         log.info(RETURNVALUE)
         return buildReturnValue(RETURNVALUE)
     
+    except Exception as e:
+        dbRollback(db)
+        RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
+        RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        log.error(e.message)
+        return buildReturnValue(RETURNVALUE)
+
+
+def removePShareByIds(param):
+    RETURNVALUE = {}
+    RETURNVALUE[VALUE] = []
+    RETURNVALUE[CODE] = 0
+    RETURNVALUE[MESSAGE] = None
+    try:
+        ids = param['ids']
+        idsFilter = []
+        for x in ids.split(","):
+            idsFilter.append(x)
+        rule = or_(*[PShare.Id == w for w in idsFilter])
+
+        PShare.query.filter(rule).delete()
+        log.info(RETURNVALUE)
+        return buildReturnValue(RETURNVALUE)
+
     except Exception as e:
         dbRollback(db)
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
