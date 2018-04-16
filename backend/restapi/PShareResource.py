@@ -47,5 +47,11 @@ class updatePShareAPI(Resource):
 
 class removePShareAPI(Resource):
     @httpAuth.login_required
-    def delete(self, shareId, nasId):
-        return removePShare(shareId, nasId)
+    def post(self):
+        params = reqparse.RequestParser()
+        params.add_argument("id", type = int, location = "json", required = False)
+        params.add_argument("nasId", type = int, location = "json", required = False)
+        params.add_argument("shareId", type = int, location = "json", required = False)
+        params.add_argument("name", type = str, location = "json", required = False)
+        params.add_argument("tel", type = int, location = "json", required = False)
+        return removePShare(params.parse_args())

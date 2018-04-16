@@ -240,10 +240,10 @@ api.add_resource(addPShareAPI, '/authserver/api/pshare', endpoint = 'addpshare')
     @apiParam {Number} sortField required = False, (default 0, name 0, createTime 1, heat 2)
     @apiParam {Number} sortType required = Flase, (default asce, asce 0, desc 1)
     @apiParam {Number} type required = False
-    @apiParam {Number} shareWith required = False, (Fuzzy query: true)
+    @apiParam {String} shareWith required = False, (Fuzzy query: true)
     @apiParam {Number} nasId required = False
     @apiParam {Number} tel required = Flase
-    @apiParam {Number} name required = Flase, (Fuzzy query: false)
+    @apiParam {String} name required = Flase, (Fuzzy query: false)
 
     @apiParamExample {json} Request-Example:
                  {
@@ -317,11 +317,28 @@ api.add_resource(updatePShareAPI, '/authserver/api/pshare/<int:shareId>/<int:nas
 
 
 """
-    @api {delete} /api/pshare/<int:shareId>/<int:nasId>
+    @api {post} /api/pshares/removepshare
     @apiVersion 1.0.0
     @apiName removePShare
     @apiGroup PShare
     @apiDescription  remove public share
+
+    
+    @apiParam {Number} id required = False
+    @apiParam {Number} nasId required = False
+    @apiParam {String} name required = False
+    @apiParam {Number} shareId required = Flase
+    @apiParam {Number} tel required = Flase
+    
+     @apiParamExample {json} Request-Example:
+                 {
+                   "id": 1,
+                   "nasId": 2,
+                   "name": "shareId",
+                   "shareId": 1,
+                   "tel": 18701656257
+                 }
+
 
     @apiSuccessExample {json} Success-Response:
                       {
@@ -336,7 +353,7 @@ api.add_resource(updatePShareAPI, '/authserver/api/pshare/<int:shareId>/<int:nas
                       "value": ""
                       }
 """
-api.add_resource(removePShareAPI, '/authserver/api/pshare/<int:shareId>/<int:nasId>', endpoint = 'removePShare')
+api.add_resource(removePShareAPI, '/authserver/api/pshares/removepshare', endpoint = 'removePShare')
 
 
 """

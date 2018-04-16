@@ -173,13 +173,43 @@ def updatePShare(shareId, nasId, param):
         return buildReturnValue(RETURNVALUE)
 
 
-def removePShare(shareId, nasId):
+def removePShare(param):
     RETURNVALUE = {}
     RETURNVALUE[VALUE] = []
     RETURNVALUE[CODE] = 0
     RETURNVALUE[MESSAGE] = None
     try:
-        PShare.query.filter(PShare.ShareId == shareId, PShare.NasId == nasId).delete()
+        id = param['id']
+        shareId = param['shareId']
+        name = param['name']
+        nasId = param['nasId']
+        tel = param['tel']
+
+
+        if tel is None:
+            telFilter = PShare.Tel == -1
+        else:
+            telFilter = PShare.Tel == tel
+
+        if id is None:
+            idFilter = PShare.Id == -1
+        else:
+            idFilter = PShare.Id == id
+
+        if shareId is None:
+            shareIdFilter = PShare.ShareId == -1
+        else:
+            shareIdFilter = PShare.ShareId == shareId
+
+        if nasId is None:
+            nasIdFilter = PShare.NasId == -1
+        else:
+            nasIdFilter = PShare.NasId == nasId
+
+        if name is None:
+            PShare.query.filter(idFilter, shareIdFilter, nasIdFilter, telFilter).delete()
+        else:
+            PShare.query.filter(idFilter, shareIdFilter, nasIdFilter, telFilter, PShare.Name == name).delete()
         log.info(RETURNVALUE)
         return buildReturnValue(RETURNVALUE)
     
