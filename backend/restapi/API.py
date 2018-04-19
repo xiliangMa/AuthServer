@@ -325,19 +325,27 @@ api.add_resource(updatePShareAPI, '/authserver/api/pshare/<int:shareId>/<int:nas
     @apiDescription  remove public shares
 
     
-    @apiParam {Number} id required = False
+    @apiParam {Number} type required = False
     @apiParam {Number} nasId required = False
-    @apiParam {String} name required = False
+    @apiParam {String} shareWith required = False
     @apiParam {Number} shareId required = Flase
-    @apiParam {Number} tel required = Flase
     
      @apiParamExample {json} Request-Example:
+                {params:[
                  {
-                   "id": 1,
                    "nasId": 2,
-                   "name": "shareId",
+                   "shareWith": "{\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}",
                    "shareId": 1,
-                   "tel": 18701656257
+                   "tel": 18701656257,
+                   "type": 1
+                 },
+                 {
+                   "nasId": 1,
+                   "shareWith": "{\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}",
+                   "shareId": 1,
+                   "tel": 13864002558,
+                   "type": 1
+                 }]
                  }
 
 

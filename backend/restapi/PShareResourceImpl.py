@@ -7,8 +7,9 @@ from backend.errors import BackendErrorCode, BackendErrorMessage
 from backend.utils.BackendUtils import dbRollback, buildReturnValue
 from backend.utils.SysConstant import VALUE, CODE, MESSAGE
 from FlaskManager import db
+from flask import jsonify
 from backend.model.PShareModel import PShare
-from sqlalchemy import and_, or_
+from sqlalchemy import and_
 
 logManager = Log()
 log = logManager.getLogger("PShareResourcesImpl")
@@ -180,37 +181,39 @@ def removePShare(param):
     RETURNVALUE[CODE] = 0
     RETURNVALUE[MESSAGE] = None
     try:
-        id = param['id']
-        shareId = param['shareId']
-        name = param['name']
-        nasId = param['nasId']
-        tel = param['tel']
+        print jsonify(param)
+        # shareId = param['shareId']
+        # nasId = param['nasId']
+        # type = param['type']
+        # shareWith = param['shareWith']
+        #
+        #
+        # if shareId is None:
+        #     shareIdFilter = PShare.ShareId == -1
+        # else:
+        #     shareIdFilter = PShare.ShareId == shareId
+        #
+        # if nasId is None:
+        #     nasIdFilter = PShare.NasId == -1
+        # else:
+        #     nasIdFilter = PShare.NasId == nasId
+        #
+        # if type is None:
+        #     typeFilter = PShare.Type == -1
+        # else:
+        #     typeFilter = PShare.Type == type
+        #
+        #
+        #
+        # if type == 8:
+        #     PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter).delete()
+        # else:
+        #     if shareWith is None:
+        #         PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter).delete()
+        #     else:
+        #         shareWithFilter = PShare.ShareWith == shareWith
+        #         PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter, shareWithFilter).delete()
 
-
-        if tel is None:
-            telFilter = PShare.Tel == -1
-        else:
-            telFilter = PShare.Tel == tel
-
-        if id is None:
-            idFilter = PShare.Id == -1
-        else:
-            idFilter = PShare.Id == id
-
-        if shareId is None:
-            shareIdFilter = PShare.ShareId == -1
-        else:
-            shareIdFilter = PShare.ShareId == shareId
-
-        if nasId is None:
-            nasIdFilter = PShare.NasId == -1
-        else:
-            nasIdFilter = PShare.NasId == nasId
-
-        if name is None:
-            PShare.query.filter(idFilter, shareIdFilter, nasIdFilter, telFilter).delete()
-        else:
-            PShare.query.filter(idFilter, shareIdFilter, nasIdFilter, telFilter, PShare.Name == name).delete()
         log.info(RETURNVALUE)
         return buildReturnValue(RETURNVALUE)
     
