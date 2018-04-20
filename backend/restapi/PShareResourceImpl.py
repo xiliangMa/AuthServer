@@ -10,6 +10,7 @@ from FlaskManager import db
 from flask import jsonify
 from backend.model.PShareModel import PShare
 from sqlalchemy import and_
+import json
 
 logManager = Log()
 log = logManager.getLogger("PShareResourcesImpl")
@@ -35,6 +36,7 @@ def addPShare(param):
         pshare.Tel = param['tel']
         pshare.Type = param['type']
         pshare.ShareWith = param['shareWith']
+        pshare.Notes = param['notes']
         pshare.HEAT = param['heat']
         db.session.add(pshare)
 
@@ -85,8 +87,9 @@ def getPShares(param):
             return buildReturnValue(RETURNVALUE)
 
         words = []
-        for x in shareWith.split(","):
-            words.append("%" + x + "%")
+        if shareWith is not None:
+            for x in shareWith.split(","):
+                words.append("%" + x + "%")
 
         if nasId is None:
             nasIdFilter = PShare.NasId != 0
@@ -131,7 +134,8 @@ def getPShares(param):
             pshare['createTime'] = data.CreateTime.strftime('%Y-%m-%d %H:%M:%S')
             pshare['tel'] = data.Tel
             pshare['type'] = data.Type
-            pshare['shareWith'] = data.ShareWith
+            pshare['shareWith'] = json.loads(data.ShareWith)
+            pshare['notes'] = data.Notes
             pshare['heat'] = data.HEAT
             RETURNVALUE[VALUE].append(pshare)
 
@@ -181,7 +185,7 @@ def removePShare(param):
     RETURNVALUE[CODE] = 0
     RETURNVALUE[MESSAGE] = None
     try:
-        print jsonify(param)
+        print jsonify(param)[1]
         # shareId = param['shareId']
         # nasId = param['nasId']
         # type = param['type']

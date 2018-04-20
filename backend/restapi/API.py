@@ -209,6 +209,7 @@ api.add_resource(getUserNASDevicesAPI, '/authserver/api/user/<int:tel>/nas', end
                            "tel": 18701656257,
                            "heat": 100,
                            "type": 1,
+                           "notes": "note1",
                            "shareWith": " {\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}"
                          }
 
@@ -331,7 +332,7 @@ api.add_resource(updatePShareAPI, '/authserver/api/pshare/<int:shareId>/<int:nas
     @apiParam {Number} shareId required = Flase
     
      @apiParamExample {json} Request-Example:
-                {params:[
+                {"params":[
                  {
                    "nasId": 2,
                    "shareWith": "{\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}",

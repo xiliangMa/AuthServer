@@ -17,6 +17,7 @@ class PShare(db.Model):
     Name = db.Column(db.String(255))
     Type = db.Column(db.Integer)
     ShareWith = db.Column(db.Text)
+    Notes = db.Column(db.Text)
     Tel = db.Column(db.BigInteger, db.ForeignKey(User.Tel))
     CreateTime = db.Column(TIMESTAMP)
     HEAT = db.Column(db.Integer)

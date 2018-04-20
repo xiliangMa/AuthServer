@@ -16,6 +16,7 @@ class addPShareAPI(Resource):
         params.add_argument("name", type = str, location = "json", required = True)
         params.add_argument("type", type = int, location = "json", required = True)
         params.add_argument("shareWith", type = str, location = "json", required = False)
+        params.add_argument("notes", type = str, location = "json", required = False)
         params.add_argument("tel", type = int, location = "json", required = True)
         params.add_argument("heat", type = int, location = "json", required = False)
         return addPShare(params.parse_args())
@@ -49,7 +50,7 @@ class removePShareAPI(Resource):
     @httpAuth.login_required
     def post(self):
         params = reqparse.RequestParser()
-        params.add_argument("params", type = str, location = "json", required = False)
+        params.add_argument("params", location=['json', 'args'],type=dict, required = False)
         return removePShare(params.parse_args())
 
 

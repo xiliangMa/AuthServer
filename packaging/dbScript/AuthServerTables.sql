@@ -55,6 +55,7 @@ CREATE TABLE `PShare` (
   `Name` varchar(255) DEFAULT NULL,
   `Type` int(11) DEFAULT NULL,
   `ShareWith` text CHARACTER SET utf8 DEFAULT NULL,
+  `Notes` text CHARACTER SET utf8 DEFAULT NULL,
   `Tel` bigint(30) DEFAULT NULL,
   `CreateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `HEAT` int(11) DEFAULT '0',
