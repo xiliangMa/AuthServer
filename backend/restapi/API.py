@@ -332,22 +332,13 @@ api.add_resource(updatePShareAPI, '/authserver/api/pshare/<int:shareId>/<int:nas
     @apiParam {Number} shareId required = Flase
     
      @apiParamExample {json} Request-Example:
-                {"params":[
-                 {
-                   "nasId": 2,
-                   "shareWith": "{\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}",
-                   "shareId": 1,
-                   "tel": 18701656257,
-                   "type": 1
-                 },
-                 {
-                   "nasId": 1,
-                   "shareWith": "{\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}",
-                   "shareId": 1,
-                   "tel": 13864002558,
-                   "type": 1
-                 }]
-                 }
+                {"params": 
+                    "{\"pshares\":[
+                        {\"nasId\": 2, \"shareId\": 1,\"type\": 1,\"shareWith\": {\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}},
+                        {\"nasId\": 2, \"shareId\": 1,\"type\": 1,\"shareWith\": {\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}}
+                        ]
+                    }"
+                }
 
 
     @apiSuccessExample {json} Success-Response:

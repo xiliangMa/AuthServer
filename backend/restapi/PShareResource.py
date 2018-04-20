@@ -50,7 +50,7 @@ class removePShareAPI(Resource):
     @httpAuth.login_required
     def post(self):
         params = reqparse.RequestParser()
-        params.add_argument("params", location=['json', 'args'],type=dict, required = False)
+        params.add_argument("params", type = str, location = "json", required = False)
         return removePShare(params.parse_args())
 
 

@@ -22,12 +22,12 @@ def addPShare(param):
     RETURNVALUE[CODE] = 0
     RETURNVALUE[MESSAGE] = None
     try:
-        pshare = PShare.query.filter(PShare.ShareId == param['shareId']).first()
-        if pshare is not None:
-            RETURNVALUE[CODE] = BackendErrorCode.PSHARE_IS_EXIST_ERROR
-            RETURNVALUE[MESSAGE] = BackendErrorMessage.PSHARE_IS_EXIST_ERROR
-            log.error(RETURNVALUE)
-            return buildReturnValue(RETURNVALUE)
+        # pshare = PShare.query.filter(PShare.ShareId == param['shareId']).first()
+        # if pshare is not None:
+        #     RETURNVALUE[CODE] = BackendErrorCode.PSHARE_IS_EXIST_ERROR
+        #     RETURNVALUE[MESSAGE] = BackendErrorMessage.PSHARE_IS_EXIST_ERROR
+        #     log.error(RETURNVALUE)
+        #     return buildReturnValue(RETURNVALUE)
 
         pshare = PShare()
         pshare.Name = param['name']
@@ -36,6 +36,7 @@ def addPShare(param):
         pshare.Tel = param['tel']
         pshare.Type = param['type']
         pshare.ShareWith = param['shareWith']
+        pshare.ShareWithHash = hash(param['shareWith'])
         pshare.Notes = param['notes']
         pshare.HEAT = param['heat']
         db.session.add(pshare)
@@ -185,38 +186,39 @@ def removePShare(param):
     RETURNVALUE[CODE] = 0
     RETURNVALUE[MESSAGE] = None
     try:
-        print jsonify(param)[1]
-        # shareId = param['shareId']
-        # nasId = param['nasId']
-        # type = param['type']
-        # shareWith = param['shareWith']
-        #
-        #
-        # if shareId is None:
-        #     shareIdFilter = PShare.ShareId == -1
-        # else:
-        #     shareIdFilter = PShare.ShareId == shareId
-        #
-        # if nasId is None:
-        #     nasIdFilter = PShare.NasId == -1
-        # else:
-        #     nasIdFilter = PShare.NasId == nasId
-        #
-        # if type is None:
-        #     typeFilter = PShare.Type == -1
-        # else:
-        #     typeFilter = PShare.Type == type
-        #
-        #
-        #
-        # if type == 8:
-        #     PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter).delete()
-        # else:
-        #     if shareWith is None:
-        #         PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter).delete()
-        #     else:
-        #         shareWithFilter = PShare.ShareWith == shareWith
-        #         PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter, shareWithFilter).delete()
+        pshares = json.loads(param["params"])["pshares"]
+        for pshare in pshares:
+
+            shareId = pshare['shareId']
+            nasId = pshare['nasId']
+            type = pshare['type']
+            shareWith = pshare['shareWith']
+
+
+            if shareId is None:
+                shareIdFilter = PShare.ShareId == -1
+            else:
+                shareIdFilter = PShare.ShareId == shareId
+
+            if nasId is None:
+                nasIdFilter = PShare.NasId == -1
+            else:
+                nasIdFilter = PShare.NasId == nasId
+
+            if type is None:
+                typeFilter = PShare.Type == -1
+            else:
+                typeFilter = PShare.Type == type
+
+
+            if type == 8:
+                PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter).delete()
+            else:
+                if shareWith == 'None':
+                    PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter).delete()
+                else:
+                    shareWithFilter = PShare.ShareWithHash == hash(str(shareWith))
+                    PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter, shareWithFilter).delete()
 
         log.info(RETURNVALUE)
         return buildReturnValue(RETURNVALUE)
