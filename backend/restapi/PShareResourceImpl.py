@@ -151,14 +151,14 @@ def getPShares(param):
         return buildReturnValue(RETURNVALUE)
 
 
-def updatePShare(shareId, nasId, param):
+def updatePShare(id):
     RETURNVALUE = {}
     RETURNVALUE[VALUE] = []
     RETURNVALUE[CODE] = 0
     RETURNVALUE[MESSAGE] = None
     try:
-        isHeat = param['isHeat']
-        pshare = PShare.query.filter(PShare.ShareId == shareId, PShare.NasId == nasId).first()
+
+        pshare = PShare.query.filter(PShare.Id == id).first()
 
         if pshare is None:
             RETURNVALUE[CODE] = BackendErrorCode.PSHARE_NOT_EXIST_ERROR
@@ -166,8 +166,7 @@ def updatePShare(shareId, nasId, param):
             log.error(RETURNVALUE)
             return buildReturnValue(RETURNVALUE)
 
-        if isHeat == 1:
-            pshare.HEAT = pshare.HEAT + 1
+        pshare.HEAT = pshare.HEAT + 1
 
         log.info(RETURNVALUE)
         return buildReturnValue(RETURNVALUE)

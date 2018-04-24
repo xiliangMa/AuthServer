@@ -289,18 +289,14 @@ api.add_resource(getPSharesAPI, '/authserver/api/pshares', endpoint = 'getpshare
 
 
 """
-    @api {put} /api/pshare/<int:shareId>/<int:nasId>
+    @api {put} /api/pshare/<int:id>
     @apiVersion 1.0.0
     @apiName updatePShare
     @apiGroup PShare
     @apiDescription  update public share
 
-    @apiParam {Boolean} isHeat required = True (0 false, 1 true)
+    @apiParam {Number} id required = True
 
-    @apiParamExample {json} Request-Example:
-                         {
-                           "isHeat": 0
-                         }
 
     @apiSuccessExample {json} Success-Response:
                       {
@@ -315,7 +311,7 @@ api.add_resource(getPSharesAPI, '/authserver/api/pshares', endpoint = 'getpshare
                       "value": ""
                       }
 """
-api.add_resource(updatePShareAPI, '/authserver/api/pshare/<int:shareId>/<int:nasId>', endpoint = 'updatePShare')
+api.add_resource(updatePShareAPI, '/authserver/api/pshare/<int:id>', endpoint = 'updatePShare')
 
 
 """

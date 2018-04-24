@@ -40,10 +40,8 @@ class getPSharesAPI(Resource):
 
 class updatePShareAPI(Resource):
     @httpAuth.login_required
-    def put(self, shareId, nasId):
-        params = reqparse.RequestParser()
-        params.add_argument("isHeat", type = int, location = "json", required = True)
-        return updatePShare(shareId, nasId, params.parse_args())
+    def put(self, id):
+        return updatePShare(id)
 
 
 class removePShareAPI(Resource):
