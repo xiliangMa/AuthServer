@@ -178,7 +178,8 @@ def allocationPPDeviceID(object, type, tel):
     else:
         log.info("PPDService request ppdUserAdd. Success: iReqID = " + str(iReqID))
 
-    db.session.add(ppDevices)
+    if PPDevices.query.filter(PPDevices.PPDeviceID == ppDevices.PPDeviceID).first() is None:
+        db.session.add(ppDevices)
     return iReqID
 
 
