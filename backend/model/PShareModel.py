@@ -22,6 +22,7 @@ class PShare(db.Model):
     Tel = db.Column(db.BigInteger, db.ForeignKey(User.Tel))
     CreateTime = db.Column(TIMESTAMP)
     HEAT = db.Column(db.Integer)
+    Thumbnail = db.Column(db.LargeBinary(length=65536))
 
     def __repr__(self):
         return self

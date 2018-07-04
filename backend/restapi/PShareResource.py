@@ -19,6 +19,7 @@ class addPShareAPI(Resource):
         params.add_argument("notes", type = str, location = "json", required = False)
         params.add_argument("tel", type = int, location = "json", required = True)
         params.add_argument("heat", type = int, location = "json", required = False)
+        params.add_argument("thumbnail", type = str, location = "json", required = False)
         return addPShare(params.parse_args())
 
 

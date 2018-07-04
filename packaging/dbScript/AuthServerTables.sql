@@ -60,6 +60,7 @@ CREATE TABLE `PShare` (
   `Tel` bigint(30) DEFAULT NULL,
   `CreateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `HEAT` int(11) DEFAULT '0',
+  `Thumbnail` mediumblob DEFAULT NULL,
   PRIMARY KEY (`Id`),
   CONSTRAINT `NasId_PShare_FK` FOREIGN KEY (`NasId`) REFERENCES `NASDevices` (`NasId`),
   CONSTRAINT `Tel_PShare_FK` FOREIGN KEY (`Tel`) REFERENCES `User` (`Tel`)

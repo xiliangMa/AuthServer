@@ -39,6 +39,7 @@ def addPShare(param):
         pshare.ShareWithHash = hash(param['shareWith'])
         pshare.Notes = param['notes']
         pshare.HEAT = param['heat']
+        pshare.Thumbnail = param['thumbnail']
         db.session.add(pshare)
 
         log.info(RETURNVALUE)
@@ -138,6 +139,7 @@ def getPShares(param):
             pshare['shareWith'] = json.loads(data.ShareWith)
             pshare['notes'] = data.Notes
             pshare['heat'] = data.HEAT
+            pshare['thumbnail'] = data.Thumbnail
             RETURNVALUE[VALUE].append(pshare)
 
         log.info(RETURNVALUE)

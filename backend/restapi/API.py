@@ -200,6 +200,10 @@ api.add_resource(getUserNASDevicesAPI, '/authserver/api/user/<int:tel>/nas', end
     @apiParam {String} name required = True
     @apiParam {Number} tel required = True
     @apiParam {Number} heat required = False
+    @apiParam {Number} type required = False
+    @apiParam {String} notes required = False
+    @apiParam {String} shareWith required = False
+    @apiParam {String} Thumbnail required = False
 
     @apiParamExample {json} Request-Example:
                          {
@@ -210,7 +214,8 @@ api.add_resource(getUserNASDevicesAPI, '/authserver/api/user/<int:tel>/nas', end
                            "heat": 100,
                            "type": 1,
                            "notes": "note1",
-                           "shareWith": " {\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}"
+                           "shareWith": " {\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}",
+                           "thumbnail": ""
                          }
 
     @apiSuccessExample {json} Success-Response:
@@ -273,7 +278,8 @@ api.add_resource(addPShareAPI, '/authserver/api/pshare', endpoint = 'addpshare')
                       "shaeId": 1, 
                       "shareWith": "{\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}", 
                       "tel": 18701656257, 
-                      "type": 1001
+                      "type": 1001,
+                      "thumbnail": "base64字节"
                     }
                   ]
                 }
