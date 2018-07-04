@@ -25,9 +25,16 @@ def register(param):
     RETURNVALUE[CODE] = 0
     RETURNVALUE[MESSAGE] = None
     try:
+        type = param['type']
         #check user is registered
         user = User.query.filter(User.Tel == param['tel']).first()
         if user is not None:
+            if type == 1:
+                user.Pwd = hashlib.md5(param['pwd']).hexdigest()
+                RETURNVALUE[VALUE].append(user.SigKey)
+                log.info(RETURNVALUE)
+                return buildReturnValue(RETURNVALUE)
+
             RETURNVALUE[CODE] = BackendErrorCode.USER_IS_REGISTERED_ERROR
             RETURNVALUE[MESSAGE] = BackendErrorMessage.USER_IS_REGISTERED_ERROR
             log.error(RETURNVALUE)
@@ -38,7 +45,7 @@ def register(param):
         user.Pwd = hashlib.md5(param['pwd']).hexdigest()
         user.Email = param['email']
         user.Name = param['name']
-        type = param['type']
+
 
         if type == 0:
             randomCode = param['randomCode']
