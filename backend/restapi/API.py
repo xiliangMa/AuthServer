@@ -214,7 +214,7 @@ api.add_resource(getUserNASDevicesAPI, '/authserver/api/user/<int:tel>/nas', end
                            "heat": 100,
                            "type": 1,
                            "notes": "note1",
-                           "shareWith": " {\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}",
+                           "shareWith": {"shares":[{"shareId":1,"shareWith": "zhangsan"},{"shareId": 2,"shareWith": "lisi"}]},
                            "thumbnail": ""
                          }
 
@@ -276,7 +276,7 @@ api.add_resource(addPShareAPI, '/authserver/api/pshare', endpoint = 'addpshare')
                       "nasId": 1, 
                       "id": 1,
                       "shaeId": 1, 
-                      "shareWith": "{\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}", 
+                      "shareWith": {"shares":[{"shareId":1,"shareWith": "zhangsan"},{"shareId": 2,"shareWith": "lisi"}]}", 
                       "tel": 18701656257, 
                       "type": 1001,
                       "thumbnail": "base64字节"
@@ -335,11 +335,11 @@ api.add_resource(updatePShareAPI, '/authserver/api/pshare/<int:id>', endpoint = 
     
      @apiParamExample {json} Request-Example:
                 {"params": 
-                    "{\"pshares\":[
-                        {\"nasId\": 2, \"shareId\": 1,\"type\": 1,\"shareWith\": {\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}},
-                        {\"nasId\": 2, \"shareId\": 1,\"type\": 1,\"shareWith\": {\"shares\":[{\"shareId\":1,\"shareWith\": \"zhangsan\"},{\"shareId\": 2,\"shareWith\": \"lisi\"}]}}
+                   {"pshares":[
+                            {"nasId": 2, "shareId": 1,"type": 1,"shareWith": {"shares":[{"shareId":1,"shareWith": "zhangsan"},{"shareId": 2,"shareWith": "lisi"}]}},
+                            {"nasId": 2, "shareId": 1,"type": 1,"shareWith": {"shares":[{"shareId":1,"shareWith": "zhangsan"},{"shareId": 2,"shareWith": "lisi"}]}}
                         ]
-                    }"
+                    }
                 }
 
 

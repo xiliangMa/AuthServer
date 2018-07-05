@@ -10,7 +10,7 @@ from FlaskManager import db
 from flask import jsonify
 from backend.model.PShareModel import PShare
 from sqlalchemy import and_
-import json, demjson
+import json
 
 logManager = Log()
 log = logManager.getLogger("PShareResourcesImpl")
@@ -35,8 +35,9 @@ def addPShare(param):
         pshare.ShareId = param['shareId']
         pshare.Tel = param['tel']
         pshare.Type = param['type']
-        pshare.ShareWith = param['shareWith']
-        pshare.ShareWithHash = hash(param['shareWith'])
+        shareWith = param['shareWith'].replace("'", '"').replace("u", ' ')
+        pshare.ShareWith = shareWith
+        pshare.ShareWithHash = hash(shareWith)
         pshare.Notes = param['notes']
         pshare.HEAT = param['heat']
         pshare.Thumbnail = param['thumbnail']
@@ -136,7 +137,7 @@ def getPShares(param):
             pshare['createTime'] = data.CreateTime.strftime('%Y-%m-%d %H:%M:%S')
             pshare['tel'] = data.Tel
             pshare['type'] = data.Type
-            pshare['shareWith'] = demjson.encode(data.ShareWith)
+            pshare['shareWith'] = json.loads(data.ShareWith)
             pshare['notes'] = data.Notes
             pshare['heat'] = data.HEAT
             pshare['thumbnail'] = data.Thumbnail
@@ -187,13 +188,13 @@ def removePShare(param):
     RETURNVALUE[CODE] = 0
     RETURNVALUE[MESSAGE] = None
     try:
-        pshares = json.loads(param["params"])["pshares"]
+        pshares = json.loads(param["params"].replace("'", '"').replace("u", ' '))["pshares"]
         for pshare in pshares:
 
             shareId = pshare['shareId']
             nasId = pshare['nasId']
             type = pshare['type']
-            shareWith = pshare['shareWith']
+            shareWith = str(pshare['shareWith']).replace("'", '"').replace("u", ' ')
 
 
             if shareId is None:
