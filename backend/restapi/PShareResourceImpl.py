@@ -10,7 +10,7 @@ from FlaskManager import db
 from flask import jsonify
 from backend.model.PShareModel import PShare
 from sqlalchemy import and_
-import json
+import json, demjson
 
 logManager = Log()
 log = logManager.getLogger("PShareResourcesImpl")
@@ -136,7 +136,7 @@ def getPShares(param):
             pshare['createTime'] = data.CreateTime.strftime('%Y-%m-%d %H:%M:%S')
             pshare['tel'] = data.Tel
             pshare['type'] = data.Type
-            pshare['shareWith'] = json.loads(data.ShareWith)
+            pshare['shareWith'] = demjson.encode(data.ShareWith)
             pshare['notes'] = data.Notes
             pshare['heat'] = data.HEAT
             pshare['thumbnail'] = data.Thumbnail
