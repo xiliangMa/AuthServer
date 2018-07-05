@@ -2,6 +2,9 @@
 
 __author__ = 'xiliangma'
 
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8")
 from backend.restapi.API import app
 from backend.utils.LogManager import Log
 from backend.utils.PPDServiceManager import JpypeManager
