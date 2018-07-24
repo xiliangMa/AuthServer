@@ -13,8 +13,7 @@ CREATE TABLE `User` (
   `SigKey` text CHARACTER SET utf8,
   `CreateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `LastLoginTime` timestamp NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`Tel`),
-  KEY `Tel_User_index` (`Tel`) USING BTREE
+  PRIMARY KEY (`Tel`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
@@ -38,8 +37,7 @@ CREATE TABLE `NASDevices` (
   `NasId` bigint(30) NOT NULL,
   `IP` bigint(10),
   `MAC` varchar(255),
-  PRIMARY KEY (`NasId`),
-  KEY `NasId_NASDevices_index` (`NasId`) USING BTREE
+  PRIMARY KEY (`NasId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
