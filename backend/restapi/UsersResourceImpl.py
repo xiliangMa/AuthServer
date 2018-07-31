@@ -14,6 +14,7 @@ from backend.errors import BackendErrorCode, BackendErrorMessage
 from backend.utils.SysConstant import ADMIN
 from backend.utils.LogManager import Log
 from FlaskManager import db
+import time, datetime
 
 
 logManager = Log()
@@ -111,6 +112,19 @@ def login(auth):
     try:
         if auth.username != ADMIN:
             user = User.query.filter(User.Tel == auth.username).first()
+            timeInterval = 12960000 #24 * 60 * 60 * 5 * 30
+            if (int(time.time()) - int(time.mktime(time.strptime(str(user.CreateTime), "%Y-%m-%d %H:%M:%S")))) > timeInterval:
+                log.error("CheckSigKey: User %s sigkey invalid, time- %s", str(user.Tel), user.CreateTime)
+                (errorCode, output) = sigKey(0, user.Tel, APP_ID)
+                if errorCode != 0:
+                    RETURNVALUE[MESSAGE] = output
+                    RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
+                    log.error("CheckSigKey: user %s sigkey create failed.", str(user.Tel))
+                    return buildReturnValue(RETURNVALUE)
+                log.info("CheckSigKey: user %s sigkey create success.", str(user.Tel))
+                user.SigKey = output
+                user.CreateTime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
             data = {}
             data['sigKey'] = user.SigKey
             RETURNVALUE[VALUE].append(data)

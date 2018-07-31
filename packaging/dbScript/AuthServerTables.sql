@@ -11,7 +11,7 @@ CREATE TABLE `User` (
   `Pwd` varchar(255) CHARACTER SET utf8 NOT NULL,
   `Email` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `SigKey` text CHARACTER SET utf8,
-  `CreateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `CreateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `LastLoginTime` timestamp NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`Tel`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -56,7 +56,7 @@ CREATE TABLE `PShare` (
   `ShareWithHash` varchar(255) DEFAULT NULL,
   `Notes` text CHARACTER SET utf8 DEFAULT NULL,
   `Tel` bigint(30) DEFAULT NULL,
-  `CreateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `CreateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `HEAT` int(11) DEFAULT '0',
   `Thumbnail` mediumblob DEFAULT NULL,
   PRIMARY KEY (`Id`),
