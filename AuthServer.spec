@@ -8,7 +8,7 @@ Source0:        %{name}-%{version}.tar.gz
 
 
 Requires: npm
-Requires: mysql-server
+#Requires: mysql-server
 Requires: MySQL-python
 Requires: python-setuptools
 Requires: python-setuptools-devel
