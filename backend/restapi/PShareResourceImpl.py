@@ -10,7 +10,7 @@ from FlaskManager import db
 from flask import jsonify
 from backend.model.PShareModel import PShare
 from sqlalchemy import and_
-import json
+import json, hashlib
 
 logManager = Log()
 log = logManager.getLogger("PShareResourcesImpl")
@@ -31,6 +31,7 @@ def addPShare(param):
 
         pshare = PShare()
         pshare.Name = param['name']
+        pshare.Pwd = hashlib.md5(param['pwd']).hexdigest()
         pshare.NasId = param['nasId']
         pshare.ShareId = param['shareId']
         pshare.Tel = param['tel']

@@ -51,6 +51,7 @@ CREATE TABLE `PShare` (
   `NasId` bigint(30) NOT NULL,
   `ShareId` int(11) DEFAULT NULL,
   `Name` varchar(255) DEFAULT NULL,
+  `Pwd` varchar(255) CHARACTER SET utf8 NOT NULL,
   `Type` int(11) DEFAULT NULL,
   `ShareWith` text CHARACTER SET utf8 DEFAULT NULL,
   `ShareWithHash` varchar(255) DEFAULT NULL,

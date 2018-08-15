@@ -210,6 +210,7 @@ api.add_resource(getUserNASDevicesAPI, '/authserver/api/user/<int:tel>/nas', end
                            "nasId": 12344544,
                            "shareId": 1,
                            "name": "share1",
+                           "pwd": "abc123",
                            "tel": 18701656257,
                            "heat": 100,
                            "type": 1,
