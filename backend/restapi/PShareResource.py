@@ -14,6 +14,7 @@ class addPShareAPI(Resource):
         params.add_argument("nasId", type = int, location = "json", required = True)
         params.add_argument("shareId", type = int, location = "json", required = False)
         params.add_argument("name", type = str, location = "json", required = True)
+        params.add_argument("pwd", type = str, location = "json", required = False)
         params.add_argument("type", type = int, location = "json", required = True)
         params.add_argument("shareWith", type = str, location = "json", required = False)
         params.add_argument("notes", type = str, location = "json", required = False)

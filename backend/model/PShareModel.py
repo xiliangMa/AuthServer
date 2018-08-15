@@ -15,6 +15,7 @@ class PShare(db.Model):
     NasId = db.Column(db.BigInteger, db.ForeignKey(NASDevices.NasId))
     ShareId = db.Column(db.Integer)
     Name = db.Column(db.String(255))
+    Pwd = db.Column(db.String(255))
     Type = db.Column(db.Integer)
     ShareWith = db.Column(db.Text)
     ShareWithHash = db.Column(db.String(255))
