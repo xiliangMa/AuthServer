@@ -215,7 +215,7 @@ api.add_resource(getUserNASDevicesAPI, '/authserver/api/user/<int:tel>/nas', end
                            "heat": 100,
                            "type": 1,
                            "notes": "note1",
-                           "shareWith": {"shares":[{"shareId":1,"shareWith": "zhangsan"},{"shareId": 2,"shareWith": "lisi"}]},
+                           "shareWith": {"shares":[18701656157, 18701656151]},
                            "thumbnail": ""
                          }
 
@@ -249,6 +249,7 @@ api.add_resource(addPShareAPI, '/authserver/api/pshare', endpoint = 'addpshare')
     @apiParam {Number} type required = False
     @apiParam {String} shareWith required = False, (Fuzzy query: true)
     @apiParam {Number} nasId required = False
+    @apiParam {Number} shareId required = False
     @apiParam {Number} tel required = Flase
     @apiParam {String} name required = Flase, (Fuzzy query: false)
 
@@ -259,8 +260,9 @@ api.add_resource(addPShareAPI, '/authserver/api/pshare', endpoint = 'addpshare')
                    "sortField": 0,
                    "sortType": 1,
                    "type": 1,
-                   "shareWith": "zhangsan,lisi",
+                   "shareWith": "18701656157, 18701656151",
                    "nasId": 1,
+                   "shareId": 12344544,
                    "tel": 18701656257,
                    "name": "share1"
                  }
@@ -274,10 +276,12 @@ api.add_resource(addPShareAPI, '/authserver/api/pshare', endpoint = 'addpshare')
                       "createTime": "2018-04-11 16:53:16", 
                       "heat": 100, 
                       "name": "share1", 
+                      "pwd": "abc123",
                       "nasId": 1, 
                       "id": 1,
                       "shaeId": 1, 
-                      "shareWith": {"shares":[{"shareId":1,"shareWith": "zhangsan"},{"shareId": 2,"shareWith": "lisi"}]}", 
+                      "nasId": 1,
+                      "shareWith": {"shares":[18701656157, 18701656151]}", 
                       "tel": 18701656257, 
                       "type": 1001,
                       "thumbnail": "base64字节"
@@ -337,8 +341,8 @@ api.add_resource(updatePShareAPI, '/authserver/api/pshare/<int:id>', endpoint = 
      @apiParamExample {json} Request-Example:
                 {"params": 
                    {"pshares":[
-                            {"nasId": 2, "shareId": 1,"type": 1,"shareWith": {"shares":[{"shareId":1,"shareWith": "zhangsan"},{"shareId": 2,"shareWith": "lisi"}]}},
-                            {"nasId": 2, "shareId": 1,"type": 1,"shareWith": {"shares":[{"shareId":1,"shareWith": "zhangsan"},{"shareId": 2,"shareWith": "lisi"}]}}
+                            {"nasId": 2, "shareId": 1,"type": 1},
+                            {"nasId": 2, "shareId": 1,"type": 1}
                         ]
                     }
                 }

@@ -22,23 +22,26 @@ def addPShare(param):
     RETURNVALUE[CODE] = 0
     RETURNVALUE[MESSAGE] = None
     try:
-        # pshare = PShare.query.filter(PShare.ShareId == param['shareId']).first()
-        # if pshare is not None:
-        #     RETURNVALUE[CODE] = BackendErrorCode.PSHARE_IS_EXIST_ERROR
-        #     RETURNVALUE[MESSAGE] = BackendErrorMessage.PSHARE_IS_EXIST_ERROR
-        #     log.error(RETURNVALUE)
-        #     return buildReturnValue(RETURNVALUE)
+        pshare = PShare.query.filter(PShare.ShareId == param['shareId'], PShare.NasId == param['nasId']).first()
+        if pshare is not None:
+            RETURNVALUE[CODE] = BackendErrorCode.PSHARE_IS_EXIST_ERROR
+            RETURNVALUE[MESSAGE] = BackendErrorMessage.PSHARE_IS_EXIST_ERROR
+            log.error(RETURNVALUE)
+            return buildReturnValue(RETURNVALUE)
 
         pshare = PShare()
         pshare.Name = param['name']
-        pshare.Pwd = hashlib.md5(param['pwd']).hexdigest()
+        #pshare.Pwd = hashlib.md5(param['pwd']).hexdigest()
+        pshare.Pwd = param['pwd']
         pshare.NasId = param['nasId']
         pshare.ShareId = param['shareId']
         pshare.Tel = param['tel']
         pshare.Type = param['type']
+        #shareWith = param['shareWith'].replace("'", '"').replace("u", ' ')
+        #pshare.ShareWith = shareWith
+        #pshare.ShareWithHash = hash(shareWith)
         shareWith = param['shareWith'].replace("'", '"').replace("u", ' ')
         pshare.ShareWith = shareWith
-        pshare.ShareWithHash = hash(shareWith)
         pshare.Notes = param['notes']
         pshare.HEAT = param['heat']
         pshare.Thumbnail = param['thumbnail']
@@ -66,6 +69,7 @@ def getPShares(param):
         sortField = param['sortField']
         sortType = param['sortType']
         nasId = param['nasId']
+        shareId = param['shareId']
         tel = param['tel']
         type = param['type']
         shareWith = param['shareWith']
@@ -100,6 +104,11 @@ def getPShares(param):
         else:
             nasIdFilter = PShare.NasId == nasId
 
+        if shareId is None:
+            shareIdFilter = PShare.ShareId != 0
+        else:
+            shareIdFilter = PShare.ShareId == shareId
+
         if tel is None:
             telFilter = PShare.Tel != 0
         else:
@@ -119,20 +128,21 @@ def getPShares(param):
             # pshares = PShare.query.order_by(sort).limit(limit).all()
             # datas = PShare.query.filter(PShare.Name == name if name is not None else "*", PShare.NasId == nasId if nasId is not None else "*", PShare.Tel == tel if tel is not None else "*", PShare.Type == type if type is not None else "*").filter(rule).order_by(sort.desc()).paginate(page, limit, False).items
             if name is None:
-                datas = PShare.query.filter(nasIdFilter, telFilter, typeFilter).filter(rule).order_by(sort.desc()).paginate(page, limit, False).items
+                datas = PShare.query.filter(nasIdFilter, shareIdFilter, telFilter, typeFilter).filter(rule).order_by(sort.desc()).paginate(page, limit, False).items
             else:
-                datas = PShare.query.filter(nasIdFilter, telFilter, typeFilter, nameFilter).filter(rule).order_by(sort.desc()).paginate(page, limit, False).items
+                datas = PShare.query.filter(nasIdFilter, shareIdFilter, telFilter, typeFilter, nameFilter).filter(rule).order_by(sort.desc()).paginate(page, limit, False).items
         else:
             if name is None:
-                datas = PShare.query.filter(nasIdFilter, telFilter, typeFilter).filter(rule).order_by(sort.desc()).paginate(page, limit, False).items
+                datas = PShare.query.filter(nasIdFilter, shareIdFilter, telFilter, typeFilter).filter(rule).order_by(sort.desc()).paginate(page, limit, False).items
             else:
-                datas = PShare.query.filter(nasIdFilter, telFilter, typeFilter, nameFilter).filter(rule).order_by(sort.desc()).paginate(page, limit, False).items
+                datas = PShare.query.filter(nasIdFilter, shareIdFilter, telFilter, typeFilter, nameFilter).filter(rule).order_by(sort.desc()).paginate(page, limit, False).items
 
         # build return value
         for data in datas:
             pshare = {}
             pshare['id'] = data.Id
             pshare['name'] = data.Name
+            pshare['pwd'] = data.Pwd
             pshare['nasId'] = data.NasId
             pshare['shaeId'] = data.ShareId
             pshare['createTime'] = data.CreateTime.strftime('%Y-%m-%d %H:%M:%S')
@@ -195,7 +205,7 @@ def removePShare(param):
             shareId = pshare['shareId']
             nasId = pshare['nasId']
             type = pshare['type']
-            shareWith = str(pshare['shareWith']).replace("'", '"').replace("u", ' ')
+            #shareWith = str(pshare['shareWith']).replace("'", '"').replace("u", ' ')
 
 
             if shareId is None:
@@ -214,14 +224,15 @@ def removePShare(param):
                 typeFilter = PShare.Type == type
 
 
-            if type == 8:
-                PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter).delete()
-            else:
-                if shareWith == 'None':
-                    PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter).delete()
-                else:
-                    shareWithFilter = PShare.ShareWithHash == hash(str(shareWith))
-                    PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter, shareWithFilter).delete()
+            PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter).delete()
+            #if type == 8:
+            #    PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter).delete()
+            #else:
+            #    if shareWith == 'None':
+            #        PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter).delete()
+            #    else:
+            #        shareWithFilter = PShare.ShareWithHash == hash(str(shareWith))
+            #        PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter, shareWithFilter).delete()
 
         log.info(RETURNVALUE)
         return buildReturnValue(RETURNVALUE)
