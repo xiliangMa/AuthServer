@@ -334,9 +334,8 @@ api.add_resource(updatePShareAPI, '/authserver/api/pshare/<int:id>', endpoint = 
 
     
     @apiParam {Number} type required = False
-    @apiParam {Number} nasId required = False
-    @apiParam {String} shareWith required = False
-    @apiParam {Number} shareId required = Flase
+    @apiParam {Number} nasId required = True
+    @apiParam {Number} shareId required = True
     
      @apiParamExample {json} Request-Example:
                 {"params": 

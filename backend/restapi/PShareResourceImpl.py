@@ -144,7 +144,7 @@ def getPShares(param):
             pshare['name'] = data.Name
             pshare['pwd'] = data.Pwd
             pshare['nasId'] = data.NasId
-            pshare['shaeId'] = data.ShareId
+            pshare['shareId'] = data.ShareId
             pshare['createTime'] = data.CreateTime.strftime('%Y-%m-%d %H:%M:%S')
             pshare['tel'] = data.Tel
             pshare['type'] = data.Type
@@ -202,29 +202,36 @@ def removePShare(param):
         pshares = json.loads(param["params"].replace("'", '"').replace("u", ' '))["pshares"]
         for pshare in pshares:
 
-            shareId = pshare['shareId']
-            nasId = pshare['nasId']
-            type = pshare['type']
+
+            if pshare.has_key('shareId'):
+                shareId = pshare['shareId']
+            else:
+                RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
+                RETURNVALUE[MESSAGE] = "shareId necessary parameters"
+                log.error(RETURNVALUE)
+                return buildReturnValue(RETURNVALUE)
+
+            if pshare.has_key('nasId'):
+                nasId = pshare['nasId']
+            else:
+                RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
+                RETURNVALUE[MESSAGE] = "nasId necessary parameters"
+                log.error(RETURNVALUE)
+                return buildReturnValue(RETURNVALUE)
+
+            if pshare.has_key('type'):
+                typeFilter = PShare.Type == pshare['type']
+
             #shareWith = str(pshare['shareWith']).replace("'", '"').replace("u", ' ')
 
+            shareIdFilter = PShare.ShareId == shareId
+            nasIdFilter = PShare.NasId == nasId
 
-            if shareId is None:
-                shareIdFilter = PShare.ShareId == -1
+
+            if pshare.has_key('type'):
+                PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter).delete()
             else:
-                shareIdFilter = PShare.ShareId == shareId
-
-            if nasId is None:
-                nasIdFilter = PShare.NasId == -1
-            else:
-                nasIdFilter = PShare.NasId == nasId
-
-            if type is None:
-                typeFilter = PShare.Type == -1
-            else:
-                typeFilter = PShare.Type == type
-
-
-            PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter).delete()
+                PShare.query.filter(shareIdFilter, nasIdFilter).delete()
             #if type == 8:
             #    PShare.query.filter(shareIdFilter, nasIdFilter, typeFilter).delete()
             #else:
