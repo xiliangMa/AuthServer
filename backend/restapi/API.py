@@ -20,7 +20,7 @@ api.add_resource(APIDoc, '/authserver')
 ############################ User ############################
 
 """
- @api {get} /api/user/<tel>/checktel
+ @api {get} /api/user/<int:tel>/checktel
  @apiVersion 1.0.0
  @apiName checktel
  @apiGroup User
@@ -43,7 +43,7 @@ api.add_resource(checTelAPI, '/authserver/api/user/<int:tel>/checktel', endpoint
 
 
 """
-  @api {get} /api/user/<tel>/getrandomcode
+  @api {get} /api/user/<int:areacode>/<int:tel>/getrandomcode
   @apiVersion 1.0.0
   @apiName getrandomcode
   @apiGroup User
@@ -62,7 +62,7 @@ api.add_resource(checTelAPI, '/authserver/api/user/<int:tel>/checktel', endpoint
                      "value": ""
                      }
 """
-api.add_resource(getRandomCodeAPI, '/authserver/api/user/<int:tel>/getrandomcode', endpoint = 'getrandomcode')
+api.add_resource(getRandomCodeAPI, '/authserver/api/user/<int:areacode>/<int:tel>/getrandomcode', endpoint = 'getrandomcode')
 
 
 """
@@ -72,6 +72,7 @@ api.add_resource(getRandomCodeAPI, '/authserver/api/user/<int:tel>/getrandomcode
     @apiGroup User
     @apiDescription  User register
 
+    @apiParam {Number} areaCode required = True
     @apiParam {Number} tel required = True
     @apiParam {String} pwd required = True
     @apiParam {Number} type required = True(0 app 1 nas)
@@ -83,6 +84,7 @@ api.add_resource(getRandomCodeAPI, '/authserver/api/user/<int:tel>/getrandomcode
 
     @apiParamExample {json} Request-Example:
                           {
+                            "areaCode": 86,
                             "tel":18701656257,
                             "pwd": "abc123",
                             "randomCode": 3333,
@@ -133,7 +135,7 @@ api.add_resource(loginAPI, '/authserver/api/user/login', endpoint = 'login')
 
 
 """
-    @api {put} /api/user/<tel>/updatepwd
+    @api {put} /api/user/<int:tel>/updatepwd
     @apiVersion 1.0.0
     @apiName updatepwd
     @apiGroup User

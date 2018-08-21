@@ -26,9 +26,10 @@ def register(param):
     RETURNVALUE[CODE] = 0
     RETURNVALUE[MESSAGE] = None
     try:
+        mobile =  str(param['areaCode']) + str(param['tel'])
         type = param['type']
         #check user is registered
-        user = User.query.filter(User.Tel == param['tel']).first()
+        user = User.query.filter(User.Tel == mobile).first()
         if user is not None:
             if type == 1:
                 user.Pwd = hashlib.md5(param['pwd']).hexdigest()
@@ -42,7 +43,7 @@ def register(param):
             return buildReturnValue(RETURNVALUE)
 
         user = User()
-        user.Tel = param['tel']
+        user.Tel = mobile
         user.Pwd = hashlib.md5(param['pwd']).hexdigest()
         user.Email = param['email']
         user.Name = param['name']
@@ -59,7 +60,7 @@ def register(param):
                 return buildReturnValue(RETURNVALUE)
         else:
             nasDevices = NASDevices()
-            nasDevices.NasId = param['tel']
+            nasDevices.NasId = mobile
             nasDevices.IP = updateIpToNumber(param['ip'])
             nasDevices.MAC = param['mac']
 
@@ -74,7 +75,7 @@ def register(param):
 
 
         # createSigKey
-        (errorCode, output) = sigKey(0, user.Tel, APP_ID)
+        (errorCode, output) = sigKey(0, mobile, APP_ID)
         if errorCode != 0:
             RETURNVALUE[MESSAGE] = output
             RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
@@ -197,7 +198,7 @@ def updatePwd(tel, param):
         return buildReturnValue(RETURNVALUE)
 
 
-def getRandomCode(tel):
+def getRandomCode(areacode, tel):
     RETURNVALUE = {}
     RETURNVALUE[VALUE] = []
     RETURNVALUE[CODE] = 0
@@ -210,7 +211,7 @@ def getRandomCode(tel):
         code = []
         code.append(randomCode)
         code.append(RANDOM_CODE_TIMEOUT)
-        result = senMessage(code, tel)
+        result = senMessage(code, areacode, tel)
 
         if result['result'] != 0:
             RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
@@ -222,8 +223,9 @@ def getRandomCode(tel):
         if userSession is None:
             userSession = UserSession()
 
+        mobile = str(areacode) + str(tel)
         # save random code
-        userSession.Tel = tel
+        userSession.Tel = mobile
         userSession.RandomCode = randomCode
         db.session.add(userSession)
 

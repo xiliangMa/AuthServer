@@ -16,14 +16,15 @@ class checTelAPI(Resource):
 
 class getRandomCodeAPI(Resource):
     @httpAuth.login_required
-    def get(self, tel):
-        return getRandomCode(tel)
+    def get(self, areacode, tel):
+        return getRandomCode(areacode, tel)
 
 
 class registerAPI(Resource):
     @httpAuth.login_required
     def post(self):
         params = reqparse.RequestParser()
+        params.add_argument("areaCode", type = int, location = "json", required = True)
         params.add_argument("tel", type = int, location = "json", required = True)
         params.add_argument("name", type = str, location = "json", required = False)
         params.add_argument("pwd", type = str, location = "json", required = True)

@@ -210,10 +210,10 @@ phone_numbers: 18701657257
 '''
 
 ssender = SmsSingleSender(APP_ID, APP_KEY)
-def senMessage(params, phone_numbers):
+def senMessage(params, areacode, phone_numbers):
     try:
         log.info("Send randomCode to user.")
-        return ssender.send_with_param(86, phone_numbers, TEMPLATE_ID, params)
+        return ssender.send_with_param(areacode, phone_numbers, TEMPLATE_ID, params)
     except HTTPError as e:
         log.error("Send randomCode : " + e.message)
     except Exception as e:
