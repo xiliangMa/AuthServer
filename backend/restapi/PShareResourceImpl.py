@@ -9,7 +9,7 @@ from backend.utils.SysConstant import VALUE, CODE, MESSAGE
 from FlaskManager import db
 from flask import jsonify
 from backend.model.PShareModel import PShare
-from sqlalchemy import and_
+from sqlalchemy import and_, or_
 import json, hashlib
 
 logManager = Log()
@@ -71,7 +71,7 @@ def getPShares(param):
         sortType = param['sortType']
         nasId = param['nasId']
         shareId = param['shareId']
-        tel = param['tel']
+        tels = param['tels']
         type = param['type']
         shareWith = param['shareWith']
         name = param['name']
@@ -95,10 +95,15 @@ def getPShares(param):
             log.error(RETURNVALUE)
             return buildReturnValue(RETURNVALUE)
 
-        words = []
+        shareWithWords = []
         if shareWith is not None:
             for x in shareWith.split(","):
-                words.append("%" + x + "%")
+                shareWithWords.append("%" + x.strip() + "%")
+
+        telsWords = []
+        if tels is not None:
+            for x in tels.split(","):
+                telsWords.append("%" + x.strip() + "%")
 
         if nasId is None:
             nasIdFilter = PShare.NasId != 0
@@ -110,10 +115,10 @@ def getPShares(param):
         else:
             shareIdFilter = PShare.ShareId == shareId
 
-        if tel is None:
-            telFilter = PShare.Tel != 0
-        else:
-            telFilter = PShare.Tel == tel
+        # if tel is None:
+        #     telFilter = PShare.Tel != 0
+        # else:
+        #     telFilter = PShare.Tel == tel
 
         if type is None:
             typeFilter = PShare.Type != 0
@@ -124,19 +129,20 @@ def getPShares(param):
         nameFilter = PShare.Name == name
 
 
-        rule = and_(*[PShare.ShareWith.like(w) for w in words])
+        shareWithRule = or_(*[PShare.ShareWith.like(w) for w in shareWithWords])
+        telsRule = or_(*[PShare.Tel.like(w) for w in telsWords])
         if sortType == 0 or sortType is None:
             # pshares = PShare.query.order_by(sort).limit(limit).all()
             # datas = PShare.query.filter(PShare.Name == name if name is not None else "*", PShare.NasId == nasId if nasId is not None else "*", PShare.Tel == tel if tel is not None else "*", PShare.Type == type if type is not None else "*").filter(rule).order_by(sort.desc()).paginate(page, limit, False).items
             if name is None:
-                datas = PShare.query.filter(nasIdFilter, shareIdFilter, telFilter, typeFilter).filter(rule).order_by(sort.desc()).paginate(page, limit, False).items
+                datas = PShare.query.filter(nasIdFilter, shareIdFilter, typeFilter).filter(shareWithRule).filter(telsRule).order_by(sort.desc()).paginate(page, limit, False).items
             else:
-                datas = PShare.query.filter(nasIdFilter, shareIdFilter, telFilter, typeFilter, nameFilter).filter(rule).order_by(sort.desc()).paginate(page, limit, False).items
+                datas = PShare.query.filter(nasIdFilter, shareIdFilter, typeFilter, nameFilter).filter(shareWithRule).filter(telsRule).order_by(sort.desc()).paginate(page, limit, False).items
         else:
             if name is None:
-                datas = PShare.query.filter(nasIdFilter, shareIdFilter, telFilter, typeFilter).filter(rule).order_by(sort.desc()).paginate(page, limit, False).items
+                datas = PShare.query.filter(nasIdFilter, shareIdFilter, typeFilter).filter(shareWithRule).filter(telsRule).order_by(sort.desc()).paginate(page, limit, False).items
             else:
-                datas = PShare.query.filter(nasIdFilter, shareIdFilter, telFilter, typeFilter, nameFilter).filter(rule).order_by(sort.desc()).paginate(page, limit, False).items
+                datas = PShare.query.filter(nasIdFilter, shareIdFilter, typeFilter, nameFilter).filter(shareWithRule).filter(telsRule).order_by(sort.desc()).paginate(page, limit, False).items
 
         # build return value
         for data in datas:

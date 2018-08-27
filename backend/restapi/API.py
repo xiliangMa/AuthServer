@@ -252,7 +252,7 @@ api.add_resource(addPShareAPI, '/authserver/api/pshare', endpoint = 'addpshare')
     @apiParam {String} shareWith required = False, (Fuzzy query: true)
     @apiParam {Number} nasId required = False
     @apiParam {Number} shareId required = False
-    @apiParam {Number} tel required = Flase
+    @apiParam {String} tels required = Flase
     @apiParam {String} name required = Flase, (Fuzzy query: false)
 
     @apiParamExample {json} Request-Example:
@@ -265,7 +265,7 @@ api.add_resource(addPShareAPI, '/authserver/api/pshare', endpoint = 'addpshare')
                    "shareWith": "18701656157, 18701656151",
                    "nasId": 1,
                    "shareId": 12344544,
-                   "tel": 18701656257,
+                   "tels": "18701656157, 18701656151",
                    "name": "share1"
                  }
 
@@ -283,7 +283,7 @@ api.add_resource(addPShareAPI, '/authserver/api/pshare', endpoint = 'addpshare')
                       "id": 1,
                       "shaeId": 1, 
                       "nasId": 1,
-                      "shareWith": {"shares":[18701656157, 18701656151]}", 
+                      "shareWith": "18701656157, 18701656151", 
                       "tel": 18701656257, 
                       "type": 1001,
                       "thumbnail": "base64字节"
