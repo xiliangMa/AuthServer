@@ -65,6 +65,7 @@ def getPShares(param):
     RETURNVALUE[MESSAGE] = None
     try:
         page = param['page']
+
         limit = param['limit']
         sortField = param['sortField']
         sortType = param['sortType']

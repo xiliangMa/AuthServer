@@ -211,19 +211,20 @@ def getRandomCode(areacode, tel):
         code = []
         code.append(randomCode)
         code.append(RANDOM_CODE_TIMEOUT)
-        result = senMessage(code, areacode, tel)
+        sendMessage = senMessage(code, areacode, tel)
 
-        if result['result'] != 0:
-            RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        log.info(sendMessage)
+        if sendMessage['result'] != 0:
+            RETURNVALUE[MESSAGE] = sendMessage['errmsg']
             RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
             log.error(RETURNVALUE)
             return buildReturnValue(RETURNVALUE)
 
-        userSession = UserSession.query.filter(UserSession.Tel == tel).first()
+        mobile = str(areacode) + str(tel)
+        userSession = UserSession.query.filter(UserSession.Tel == mobile).first()
         if userSession is None:
             userSession = UserSession()
 
-        mobile = str(areacode) + str(tel)
         # save random code
         userSession.Tel = mobile
         userSession.RandomCode = randomCode
