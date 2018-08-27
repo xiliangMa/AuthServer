@@ -26,10 +26,21 @@ def register(param):
     RETURNVALUE[CODE] = 0
     RETURNVALUE[MESSAGE] = None
     try:
-        mobile =  str(param['areaCode']) + str(param['tel'])
         type = param['type']
         #check user is registered
-        user = User.query.filter(User.Tel == mobile).first()
+        if type == 0:
+            if param['areaCode'] is None:
+                RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
+                RETURNVALUE[MESSAGE] = "areaCode necessary parameters when type = 1."
+                log.error(RETURNVALUE)
+                return buildReturnValue(RETURNVALUE)
+            mobile =  str(param['areaCode']) + str(param['tel'])
+            user = User.query.filter(User.Tel == mobile).first()
+        else:
+            mobile = param['tel']
+            user = User.query.filter(User.Tel == mobile).first()
+
+
         if user is not None:
             if type == 1:
                 user.Pwd = hashlib.md5(param['pwd']).hexdigest()
@@ -43,10 +54,10 @@ def register(param):
             return buildReturnValue(RETURNVALUE)
 
         user = User()
-        user.Tel = mobile
         user.Pwd = hashlib.md5(param['pwd']).hexdigest()
         user.Email = param['email']
         user.Name = param['name']
+        user.Tel = mobile
 
 
         if type == 0:
@@ -100,7 +111,7 @@ def register(param):
     except Exception as e:
         dbRollback(db)
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
-        RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        RETURNVALUE[MESSAGE] = e
         log.error(e.message)
         return buildReturnValue(RETURNVALUE)
 
@@ -193,7 +204,7 @@ def updatePwd(tel, param):
     except Exception as e:
         dbRollback(db)
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
-        RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        RETURNVALUE[MESSAGE] = e
         log.error(e.message)
         return buildReturnValue(RETURNVALUE)
 
@@ -241,7 +252,7 @@ def getRandomCode(areacode, tel):
     except Exception as e:
         dbRollback(db)
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
-        RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        RETURNVALUE[MESSAGE] = e
         log.error(e.message)
         return buildReturnValue(RETURNVALUE)
 
@@ -266,7 +277,7 @@ def checkTel(param):
         return buildReturnValue(RETURNVALUE)
     except Exception as e:
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
-        RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        RETURNVALUE[MESSAGE] = e
         log.error(e.message)
         return buildReturnValue(RETURNVALUE)
 
@@ -290,6 +301,6 @@ def getUserNASDevices(tel):
         return buildReturnValue(RETURNVALUE)
     except Exception as e:
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
-        RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        RETURNVALUE[MESSAGE] = e
         log.error(e.message)
         return buildReturnValue(RETURNVALUE)

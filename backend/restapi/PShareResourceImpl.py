@@ -53,7 +53,7 @@ def addPShare(param):
     except Exception as e:
         dbRollback(db)
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
-        RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        RETURNVALUE[MESSAGE] = e
         log.error(e.message)
         return buildReturnValue(RETURNVALUE)
 
@@ -161,7 +161,7 @@ def getPShares(param):
     except Exception as e:
         dbRollback(db)
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
-        RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        RETURNVALUE[MESSAGE] = e
         log.error(e.message)
         return buildReturnValue(RETURNVALUE)
 
@@ -248,7 +248,7 @@ def removePShare(param):
     except Exception as e:
         dbRollback(db)
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
-        RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        RETURNVALUE[MESSAGE] = e
         log.error(e.message)
         return buildReturnValue(RETURNVALUE)
 
@@ -272,6 +272,6 @@ def removePShareByIds(param):
     except Exception as e:
         dbRollback(db)
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
-        RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        RETURNVALUE[MESSAGE] = e
         log.error(e.message)
         return buildReturnValue(RETURNVALUE)

@@ -37,7 +37,7 @@ def bindUserNAS(param, nasId, tel):
     except Exception as e:
         dbRollback(db)
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
-        RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        RETURNVALUE[MESSAGE] = e
         log.error(e.message)
         return buildReturnValue(RETURNVALUE)
 
@@ -63,6 +63,6 @@ def removeUserNAS(nasId, tel):
     except Exception as e:
         dbRollback(db)
         RETURNVALUE[CODE] = BackendErrorCode.SYSTEM_ERROR
-        RETURNVALUE[MESSAGE] = BackendErrorMessage.SYSTEM_ERROR
+        RETURNVALUE[MESSAGE] = e
         log.error(e.message)
         return buildReturnValue(RETURNVALUE)

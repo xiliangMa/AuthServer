@@ -72,7 +72,7 @@ api.add_resource(getRandomCodeAPI, '/authserver/api/user/<int:areacode>/<int:tel
     @apiGroup User
     @apiDescription  User register
 
-    @apiParam {Number} areaCode required = True
+    @apiParam {Number} areaCode required = False
     @apiParam {Number} tel required = True
     @apiParam {String} pwd required = True
     @apiParam {Number} type required = True(0 app 1 nas)
